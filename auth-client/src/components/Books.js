@@ -1,13 +1,19 @@
 import React from 'react';
 import apiClient from '../services/api';
+import Cookies from 'js-cookie';
 
 const Books = (props) => {
     const [books, setBooks] = React.useState([]);
     React.useEffect(() => {
         if (props.loggedIn) {
+            apiClient.interceptors.request.use(config => {
+                config.headers['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
+                return config;
+              });
+
             apiClient.get('/api/book')
             .then(response => {
-                setBooks(response.data)
+                setBooks(response.data.data.books)
             })
             .catch(error => console.error(error));
         }

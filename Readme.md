@@ -22,6 +22,10 @@ yarn install
 yarn start
 ```
 
+## Books
+Create Symbolic link
+php artisan storage:link
+
 ## Backend 
 ```bash
 composer create-project laravel/laravel auth-api
