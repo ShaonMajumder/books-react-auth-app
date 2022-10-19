@@ -28,8 +28,10 @@ yarn start
 ```
 
 ## Dependencies
+```bash
 yarn add react-redux
 yarn add @reduxjs/toolkit
+```
 
 ## Books
 Create Symbolic link
