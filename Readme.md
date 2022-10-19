@@ -7,6 +7,7 @@ date: 18-10-2022
 ## Features
 - Authentication (Bearer Token Based, Context Based)
 - CRUD (Redux Based)
+- Structered API
 
 ## Technologies Used
 - Laravel
