@@ -1,4 +1,4 @@
-# Books - React.Redux,Sanctum
+# Books - React,Redux,Sanctum
 ---
 author: Shaon Majumder
 date: 18-10-2022
