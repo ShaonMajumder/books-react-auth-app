@@ -4,7 +4,9 @@ author: Shaon Majumder
 date: 18-10-2022
 ---
 
-## 
+## Features
+Authentication (Bearer Token Based, Context Based)
+CRUD
 
 ## Technologies Used
 - Laravel
