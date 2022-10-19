@@ -1,4 +1,4 @@
-# Authentication Using Laravel and React
+# Books - React.Redux,Sanctum
 ---
 author: Shaon Majumder
 date: 18-10-2022
@@ -6,7 +6,7 @@ date: 18-10-2022
 
 ## Features
 - Authentication (Bearer Token Based, Context Based)
-- CRUD
+- CRUD (Redux Based)
 
 ## Technologies Used
 - Laravel
