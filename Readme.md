@@ -12,6 +12,7 @@ date: 18-10-2022
 - Laravel
     * Sanctum
 - React
+- Redux
 
 ## Quick Run
 open bash
