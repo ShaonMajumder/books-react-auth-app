@@ -1,24 +1,21 @@
 import React from 'react';
-import apiClient from '../services/api';
+import apiClient,{book_url} from '../services/api';
 import Cookies from 'js-cookie';
+import { getBookItems } from '../reducers/bookSlice';
+import { useDispatch, useSelector } from "react-redux";
 
 const Books = (props) => {
-    const [books, setBooks] = React.useState([]);
+    const dispatch = useDispatch();
+    const { bookItems, isLoading } = useSelector((store) => store.books);
+    // const [books, setBooks] = React.useState([]);
     React.useEffect(() => {
         if (props.loggedIn) {
-            apiClient.interceptors.request.use(config => {
-                config.headers['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-                return config;
-              });
-
-            apiClient.get('/api/book')
-            .then(response => {
-                setBooks(response.data.data.books)
-            })
-            .catch(error => console.error(error));
+            dispatch(getBookItems());
         }
+      
     }, []);
-    const bookList = books.map((book) => 
+    console.log(bookItems)
+    const bookList = bookItems.map((book) => 
         <div key={book.id}
             className="list-group-item"
         >

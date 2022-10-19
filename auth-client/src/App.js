@@ -4,16 +4,20 @@ import Books from './components/Books';
 import Login from './components/Login';
 import apiClient, { logout_url } from './services/api';
 import Cookies from 'js-cookie';
+import { useEffect } from "react";
+import { getBookItems } from "./reducers/bookSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
+  
   const [loggedIn, setLoggedIn] = React.useState(
     sessionStorage.getItem('loggedIn') === 'true' || false
-  );
-  const login = () => {
-    setLoggedIn(true);
-    sessionStorage.setItem('loggedIn', true);
-  };
-  const logout = () => {
+    );
+    const login = () => {
+      setLoggedIn(true);
+      sessionStorage.setItem('loggedIn', true);
+    };
+    const logout = () => {
     apiClient.interceptors.request.use(config => {
       config.headers['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
       return config;
@@ -26,9 +30,20 @@ const App = () => {
       }
     })
   };
+  
+  // const { bookItems, isLoading } = useSelector((store) => store.books);import { useDispatch, useSelector } from "react-redux";
+  // const dispatch = useDispatch();
+
+  
+  // useEffect(() => {
+  //   if(loggedIn){
+  //     dispatch(getBookItems());
+  //   }
+  // }, []);
+  
   const authLink = loggedIn 
-    ? <button onClick={logout} className="nav-link btn btn-link">Logout</button> 
-    : <NavLink to='/login' className="nav-link">Login</NavLink>;
+  ? <button onClick={logout} className="nav-link btn btn-link">Logout</button> 
+  : <NavLink to='/login' className="nav-link">Login</NavLink>;
   return (
     <Router>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
