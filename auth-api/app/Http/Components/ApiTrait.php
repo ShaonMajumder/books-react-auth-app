@@ -19,28 +19,30 @@ trait ApiTrait{
         if($status_code == 0 ){
             $status_code = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
-        if(!empty($this->access_token)){
-            if(!is_null($this->data)){
-                $this->data = array_merge(
-                    [
-                        "access_token" => $this->access_token,
-                        "token_type"  => "Bearer"
-                    ],
-                    $this->data
-                );
-            }else{
-                $this->data = [
-                        "access_token" => $this->access_token,
-                        "token_type"  => "Bearer"
-                    ];
-            }
-            
-        }
-
         $response = [
             "status"        => $this->status,
             "message"       => !empty($message) ? $message : $this->message,
         ];
+        if(!empty($this->access_token)){
+            // if(!is_null($this->data)){
+            //     $this->data = array_merge(
+            //         [
+            //             "access_token" => $this->access_token,
+            //             "token_type"  => "Bearer"
+            //         ],
+            //         $this->data
+            //     );
+            // }else{
+            //     $this->data = [
+            //             "access_token" => $this->access_token,
+            //             "token_type"  => "Bearer"
+            //     ];
+            // }
+            $response['access_token']=$this->access_token;
+            $response['token_type']="Bearer";
+        }
+
+        
         $success_codes = range(200, 206);
         if (in_array($status_code, $success_codes)) {
             $response['data'] = $this->data;

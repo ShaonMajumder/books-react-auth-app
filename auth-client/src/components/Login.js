@@ -19,9 +19,8 @@ const Login = (props) => {
                 email: email,
                 password: password
             }).then(response => {
-                console.log(response.data.access_token)
                 if (response.status === 200) { //204
-                    Cookies.set('access_token',response.data.data.access_token)
+                    Cookies.set('access_token',response.data.access_token)
                     props.login();
                     setToHome(true);
                 }

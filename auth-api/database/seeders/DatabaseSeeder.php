@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);   
         User::factory(10)->create();
+        $this->call([
+            BookSeeder::class
+        ]);
     }
 }
