@@ -1,0 +1,3 @@
+auth-client/node_modules/
+auth-client/yarn.lock
+auth-client/.env
