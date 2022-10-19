@@ -26,6 +26,10 @@ yarn install
 yarn start
 ```
 
+## Dependencies
+yarn add react-redux
+yarn add @reduxjs/toolkit
+
 ## Books
 Create Symbolic link
 php artisan storage:link
