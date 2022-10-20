@@ -15,9 +15,15 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('causer_id')->nullable()->references('id')->on('users')->cascadeOnDelete();
             $table->string('title');
             $table->string('author')->nullable();
-            $table->string('causer_id')->nullable();
+            $table->string('year')->nullable();
+            $table->string('pages')->nullable();
+            $table->string('language')->nullable();
+            $table->string('image')->nullable();
+            $table->string('country')->nullable();
+            $table->string('link',512)->nullable();
             $table->timestamps();
         });
     }

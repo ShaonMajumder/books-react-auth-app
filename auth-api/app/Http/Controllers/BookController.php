@@ -23,7 +23,7 @@ class BookController extends Controller
         
         $this->apiSuccess();
         $this->data = [
-            'books' => Book::all()//new UserResource($user)
+            'books' => Book::all()->paginate(10)//new UserResource($user)
         ];
 
         return response()->json(
