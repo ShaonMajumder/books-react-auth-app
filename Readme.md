@@ -108,6 +108,9 @@ ubuntu
 ```bash
 sudo fuser -k port_number/tcp
 ```
+<br>
+<br>
+Mac
 To get Pid -
 ```
 netstat -vanp tcp | grep 3000
