@@ -8,8 +8,8 @@ export const login_url = process.env.REACT_APP_LOGIN_URL || "api/login"
 export const logout_url = process.env.REACT_APP_LOGOUT_URL || "api/logout"
 export const csrf_token_url = process.env.REACT_APP_CSRF_TOKEN_URL || "/sanctum/csrf-cookie"
 export const book_url = process.env.REACT_APP_BOOK_URL || "/api/books"
-
-
+export const book_create_url = process.env.REACT_APP_BOOK_CREATE_URL || "/api/books/add"
+export const book_delete_url = process.env.REACT_APP_BOOK_DELETE_URL || "/api/books/delete"
 
 // Define a service using a base URL and expected endpoints
 export const booksApi = createApi({
@@ -37,7 +37,8 @@ export const booksApi = createApi({
                 url : '/books/add',
                 method: "POST",
                 body: book
-            })
+            }),
+            transformResponse: (response, meta, arg) => response.data,
         }),
         updateBook: builder.mutation({
             query: (id, ...rest) => ({
@@ -56,6 +57,11 @@ export const booksApi = createApi({
 });
 console.log(booksApi)
 export const {
+    endpoints,
+    reducerPath, 
+    reducer, 
+    middleware,
+    
     useBooksQuery,
     useAddBookMutation,
     useDeleteBookMutation,

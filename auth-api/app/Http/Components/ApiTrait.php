@@ -56,4 +56,15 @@ trait ApiTrait{
         }
         return array($response,$status_code);
     }
+
+    /**
+     * Get Exceptional Error
+     */
+    protected function getExceptionError($e,$debug=true){
+        if(env('APP_ENV') == 'local' and $debug) {
+            return $e->getMessage() . ' On File' .$e->getFile() . ':' .$e->getLine();
+        }else{
+            return $e->getMessage(); 
+        }
+    }
 }

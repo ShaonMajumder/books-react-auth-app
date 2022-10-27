@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from 'react-bootstrap/Pagination';
+import Button from 'react-bootstrap/Button';
 import '../resources/app.css';
 
 const PaginationCustom = (props) => {

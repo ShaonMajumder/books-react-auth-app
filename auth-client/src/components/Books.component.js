@@ -1,14 +1,61 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../resources/app.css';
+import Swal from 'sweetalert2';
+
 import Table from 'react-bootstrap/Table';
 import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
+import { Link } from 'react-router-dom'
+import Button from 'react-bootstrap/Button';
+import apiClient,{book_delete_url} from '../services/api';
+import { Redirect, useHistory } from 'react-router-dom';
 
 // import { getBookItems } from '../reducers/bookSlice';
 // import { useDispatch, useSelector } from "react-redux";
 
-const Books = (props) => {
+const BookList = (props) => {
+    const history = useHistory();
+    const [validationError,setValidationError] = useState({})
+    const deleteProduct = async (id) => {
+        const isConfirm = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            return result.isConfirmed
+          });
+
+          if(!isConfirm){
+            return;
+          }
+
+          await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+            Swal.fire({
+              icon:"success",
+              text:data.message
+            })
+            
+            history.push('/')
+            
+          }).catch(({response})=>{
+            if(response.status===422){
+              setValidationError(response.data.errors)
+            }else{
+              Swal.fire({
+                text:response.data.message,
+                icon:"error"
+              })
+            }
+          })
+
+         
+    }
+
     // const [current_page, setCurrentPage] = useState(1);
     // const [last_page, setLastPage] = useState(1);
     const [page, setPage] = useState(1);
@@ -49,9 +96,14 @@ const Books = (props) => {
     if (props.loggedIn) {
         const bookList = bookItems2.map(({ id, title, author }) => 
             <tr key={id}>
-                <td>id</td>
+                <td>{id}</td>
                 <td>{title}</td>
                 <td>{author}</td>
+                <td>
+                    <Button variant="danger" 
+                    onClick={()=>deleteProduct(id)}
+                    >Delete</Button>
+                </td>
             </tr>
         );
 
@@ -59,12 +111,16 @@ const Books = (props) => {
         
         return (
             <div className="list-group">
+                <Link className='btn btn-primary mb-2 float-end' to={"/books/create"}>
+                    Create Book
+                </Link>
                 <Table responsive="sm" striped bordered hover >
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -80,4 +136,4 @@ const Books = (props) => {
     );
 };
 
-export default Books;
+export default BookList;

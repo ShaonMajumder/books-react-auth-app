@@ -27,6 +27,7 @@ date: 18-10-2022
         - Table
         - Responsive Breakpoint Specific
         - Pagination
+        - Button
 
     - How to store the result of query from createApi in a slice (unimplemented)
 
@@ -68,7 +69,15 @@ yarn start
 yarn add react-redux
 yarn add @reduxjs/toolkit
 yarn add react-bootstrap bootstrap
+yarn add react-router-dom
+yarn add sweetalert2
+```
 
+Adding FontAwesome
+```bash
+yarn add @fortawesome/fontawesome-svg-core
+yarn add @fortawesome/free-solid-svg-icons
+yarn add @fortawesome/react-fontawesome
 ```
 
 ## Books
@@ -252,7 +261,9 @@ https://hooks.reactivers.com/use-auth
 
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
-    - React-bootstrap Reposition - https://react-bootstrap.github.io/components/pagination/
+    - React-bootstrap Pagination - https://react-bootstrap.github.io/components/pagination/
+    - React-bootstrap Button - https://react-bootstrap.github.io/components/buttons/
+
 - React Syllabus
     * mutation and immutaion
     * arrow and defined function
