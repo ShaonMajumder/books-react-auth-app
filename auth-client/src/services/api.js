@@ -38,20 +38,22 @@ export const booksApi = createApi({
                 method: "POST",
                 body: book
             }),
-            transformResponse: (response, meta, arg) => response.data,
+            transformResponse: (response, meta, arg) => response,
         }),
         updateBook: builder.mutation({
             query: (id, ...rest) => ({
                 url : `books/update/${id}`,
                 method : 'PUT',
                 body : rest
-            })
+            }),
+            transformResponse: (response, meta, arg) => response,
         }),
         deleteBook: builder.mutation({
             query: (id) => ({
                 url : `books/update/${id}`,
                 method: 'DELETE'
-            })
+            }),
+            transformResponse: (response, meta, arg) => response,
         })
     })
 });

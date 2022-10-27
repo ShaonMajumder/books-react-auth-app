@@ -8,7 +8,7 @@ import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
-import apiClient,{book_delete_url} from '../services/api';
+import apiClient,{book_delete_url,useAddBookMutation} from '../services/api';
 import { Redirect, useHistory } from 'react-router-dom';
 
 // import { getBookItems } from '../reducers/bookSlice';
@@ -64,6 +64,7 @@ const BookList = (props) => {
     var last_page = 0;
     var data_prop = [];
     const { data,  error, isLoading, isSuccess} = useBooksQuery(page, {skip: !props.loggedIn});
+    const [addBook, { isLoading2 }] = useAddBookMutation()
     
     if(data){
         bookItems2 = data.data.books.data

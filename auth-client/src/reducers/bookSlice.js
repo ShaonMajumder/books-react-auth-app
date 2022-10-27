@@ -64,11 +64,10 @@ const bookSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      booksApi.endpoints.books.matchFulfilled,
+      booksApi.endpoints.addBook.matchFulfilled,
       (state, { payload }) => {
-        console.log('reducer m')
-        state.bookItems = payload.data.books.data
-        
+        console.log('reducer m',state)
+        console.log('from extra reducer',state.bookItems)
       }
     )
   },

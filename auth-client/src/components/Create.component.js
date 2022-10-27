@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
 export default function CreateBook() {
+  const [addBook, { isLoading2 }] = useAddBookMutation()
+  
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -49,22 +51,35 @@ export default function CreateBook() {
     //   history.push('/')
     // }), { track: false });
 
-    await apiClient.post(book_create_url,formData).then(({data})=>{
+    await addBook(json_data).unwrap()
+    .then((payload) => {
+      console.log('success creation',payload)
       Swal.fire({
         icon:"success",
-        text:data.message
+        text: payload.message
       })
       history.push('/')
-    }).catch(({response})=>{
-      if(response.status===422){
-        setValidationError(response.data.errors)
-      }else{
-        Swal.fire({
-          text:response.data.message,
-          icon:"error"
-        })
-      }
     })
+    .catch((error) => console.error('rejected', error))
+
+    
+
+    // await apiClient.post(book_create_url,formData).then(({data})=>{
+    //   Swal.fire({
+    //     icon:"success",
+    //     text:data.message
+    //   })
+    //   history.push('/')
+    // }).catch(({response})=>{
+    //   if(response.status===422){
+    //     setValidationError(response.data.errors)
+    //   }else{
+    //     Swal.fire({
+    //       text:response.data.message,
+    //       icon:"error"
+    //     })
+    //   }
+    // })
   }
 
   return (
