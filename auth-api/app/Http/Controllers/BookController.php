@@ -55,6 +55,7 @@ class BookController extends Controller
                 'author' => $request->author
             ]);
 
+            $this->data = Book::orderBy('id', 'desc')->first();
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_OK,
