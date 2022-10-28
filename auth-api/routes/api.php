@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:sanctum')->group(function(){
     Route::any('logout', [LoginController::class, "logout"]);
-    Route::get('book', [BookController::class, "listBooks"]);
+    Route::prefix('books')->name('books.')->group(function(){
+        Route::get('/', [BookController::class, "listBooks"]);
+        Route::post('/add', [BookController::class, "addBook"]);
+        Route::post('/delete/{id}', [BookController::class, "deleteBook"]);
+    });
 });
 

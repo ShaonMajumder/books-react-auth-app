@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Book;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class BookSeeder extends Seeder
@@ -14,13 +15,11 @@ class BookSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        // Book::insert([
-        //     ['title'=>'Angle and Demons', 'author'=>'Dan Brown'],
-        //     ['title'=>'De Vinci Codes', 'author'=>'Dan Brown'],
-        // ]);
-        
-        $content =  json_decode(Storage::get( '/public/books.json'), true);
+    {    
+        // $content = json_decode(Storage::get( '/public/books.json'), true);
+        $file_name = "books.json";
+        $file_url = 'public/'. $file_name;
+        $content = json_decode( file_get_contents(base_path($file_url)), true);
         Book::insert($content);
     }
 }

@@ -2,8 +2,16 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import apiClient,{login_url,csrf_token_url } from '../services/api';
 import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoggedIn, setLoggedOut} from '../reducers/bookSlice';
 
 const Login = (props) => {
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((store) => store.books.isLoggedIn);
+    // console.log("If is logged in",isLoggedIn)
+
+
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [toHome, setToHome] = React.useState(false);
@@ -23,6 +31,7 @@ const Login = (props) => {
                     Cookies.set('access_token',response.data.access_token)
                     props.login();
                     setToHome(true);
+                    dispatch(setLoggedIn())
                 }
             }).catch(error => {
                 if (error.response && error.response.status === 422) {

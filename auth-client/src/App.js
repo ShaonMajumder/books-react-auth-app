@@ -1,32 +1,33 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
-import Books from './components/Books';
+import BookList from './components/Books.component';
+import CreateBook from './components/Create.component';
+import EditBook from './components/Edit.component';
 import Login from './components/Login';
 import apiClient, { logout_url } from './services/api';
 import Cookies from 'js-cookie';
-import { useEffect } from "react";
-import { getBookItems } from "./reducers/bookSlice";
+// import { useEffect } from "react";
+// import { getBookItems } from "./reducers/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setLoggedIn, setLoggedOut} from './reducers/bookSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+  // const counter = useSelector((state) => state.counter)
+  const [loggedIn, setLoggedIn2] = React.useState( sessionStorage.getItem('loggedIn') === 'true' || false );
   
-  const [loggedIn, setLoggedIn] = React.useState(
-    sessionStorage.getItem('loggedIn') === 'true' || false
-    );
-    const login = () => {
-      setLoggedIn(true);
-      sessionStorage.setItem('loggedIn', true);
-    };
-    const logout = () => {
-    apiClient.interceptors.request.use(config => {
-      config.headers['Authorization'] = `Bearer ${Cookies.get('access_token')}`;
-      return config;
-    });
+  const login = () => {
+    setLoggedIn2(true);
+    dispatch(setLoggedIn())
+  };
+
+  const logout = () => {
     apiClient.post(logout_url,[]).then(response => {
       if (response.status === 200) { //204
         Cookies.remove('access_token');
-        setLoggedIn(false);
-        sessionStorage.setItem('loggedIn', false);
+        setLoggedIn2(false);
+        dispatch(setLoggedOut())
+        
       }
     })
   };
@@ -61,10 +62,16 @@ const App = () => {
       <div className="container mt-5 pt-5">
         <Switch>
           <Route path='/' exact render={props => (
-            <Books {...props} loggedIn={loggedIn} />
+            <BookList {...props} loggedIn={loggedIn} />
           )} />
           <Route path='/login' render={props => (
             <Login {...props} login={login} />
+          )} />
+          <Route path='/books/create' render={props => (
+            <CreateBook  />
+          )} />
+          <Route path='/books/edit/:id' render={props => (
+            <EditBook  />
           )} />
         </Switch>
       </div>
