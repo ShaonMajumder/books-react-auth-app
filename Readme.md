@@ -5,11 +5,6 @@ date: 18-10-2022
 ---
 
 ## Features
-<<<<<<< HEAD
-- Authentication (Bearer Token Based, Context Based)
-- CRUD (Redux Based)
-- Structered API
-=======
 ### User Features
 - Authentication
 - Data Vizualization
@@ -49,7 +44,6 @@ date: 18-10-2022
 
 ### Next Features
 private & protected routes
->>>>>>> 7825429cfb3825bac868aa0f72ebcae416c45cc1
 
 ## Technologies Used
 - Laravel
@@ -74,8 +68,6 @@ yarn start
 ```bash
 yarn add react-redux
 yarn add @reduxjs/toolkit
-<<<<<<< HEAD
-=======
 yarn add react-bootstrap bootstrap
 yarn add react-router-dom
 yarn add sweetalert2
@@ -86,7 +78,6 @@ Adding FontAwesome
 yarn add @fortawesome/fontawesome-svg-core
 yarn add @fortawesome/free-solid-svg-icons
 yarn add @fortawesome/react-fontawesome
->>>>>>> 7825429cfb3825bac868aa0f72ebcae416c45cc1
 ```
 
 ## Books
@@ -159,7 +150,6 @@ php artisan serve
 ```
 
 to kill a specified port process - 
-<<<<<<< HEAD
 ubuntu
 ```bash
 sudo fuser -k port_number/tcp
@@ -178,11 +168,6 @@ To kill with pid
 ```
 kill -9 <pid>
 ```
-=======
-```bash
-sudo fuser -k port_number/tcp
-```
->>>>>>> 7825429cfb3825bac868aa0f72ebcae416c45cc1
 
 ### Errors
 if you use autoload files helpers,
@@ -265,24 +250,11 @@ yarn add js-cookie
 
 
 ### Research
-<<<<<<< HEAD
-- Slate
-https://qomarullah.medium.com/create-api-docs-using-slate-3b90565333d0
-- Clean Code
-https://refactoring.guru/refactoring/smells
-=======
->>>>>>> 7825429cfb3825bac868aa0f72ebcae416c45cc1
 - React Context State Management
 https://www.freecodecamp.org/news/react-context-for-beginners/
 - Redux Data Management
 - React UseAuth Hook
 https://hooks.reactivers.com/use-auth
-<<<<<<< HEAD
-- React CV Inspiration
-    * https://github.com/tasmidur/react-resume
-    * https://tasmidur.netlify.app/
-    * https://react-resume-rho.vercel.app/
-=======
 
 - createApi react redux
     * https://redux-toolkit.js.org/rtk-query/api/createApi<br>
@@ -334,4 +306,3 @@ Next To Learn
     - global state outside component react
     - https://reactjs.org/docs/hooks-state.html
     - https://redux.js.org/tutorials/fundamentals/part-6-async-logic
->>>>>>> 7825429cfb3825bac868aa0f72ebcae416c45cc1
