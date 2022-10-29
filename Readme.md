@@ -29,7 +29,7 @@ date: 18-10-2022
         - Pagination
         - Button
 
-    - How to store the result of query from createApi in a slice (unimplemented)
+    - How to store the result of query from createApi in a slice
 
 
     change classname conditionally react

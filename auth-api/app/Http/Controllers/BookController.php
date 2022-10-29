@@ -82,23 +82,8 @@ class BookController extends Controller
      * Adds Book
      */
     public function deleteBook(Book $id){
-        // $validator = Validator::make($request->all(),[
-        //     'id' => ['required'],
-        // ]);
-
-        // if($validator->fails()){
-        //     $this->data = $validator->errors(); //->first();
-        //     return response()->json(
-        //         ...$this->apiResponseBuilder(
-        //             $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
-        //             $message = 'Here is an error occured !'
-        //         )
-        //     );
-        // }
-
         try{
             $id->delete();
-
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_OK,
@@ -115,9 +100,5 @@ class BookController extends Controller
                 )
             );
         }
-
-
-        
-        
     }
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react' //test code
 import Cookies from 'js-cookie';
+import { useDispatch } from "react-redux";
 
 export const api_url = process.env.REACT_APP_API_URL || "http://localhost:8000"
 export const client_url = process.env.REACT_APP_CLIENT_URL || "http://localhost:3000"
@@ -21,7 +22,7 @@ export const booksApi = createApi({
             const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true' || false
             headers.set('Access-Control-Allow-Origin', client_url)
             headers.set('Content-Type', 'application/json')
-            headers.set('Accept', 'application/json') // For laravel json detection
+            headers.set('Accept', 'application/json')
             headers.set('Access-Control-Allow-Credentials', 'true')
             if (isLoggedIn) {
                 headers.set('Authorization', `Bearer ${Cookies.get('access_token')}`)
@@ -54,7 +55,25 @@ export const booksApi = createApi({
                 url : `books/delete/${id}`,
                 method: 'DELETE'
             }),
-            transformResponse: (response, meta, arg) => response,
+            transformResponse: (response, meta, arg) => {
+                console.log('transofrm')
+                return {
+                    originalArg: arg,
+                    data: response,
+                }
+            },
+            async onQueryStarted(
+                arg,
+                { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
+            ) {
+                
+                // console.log('getState onQueryStarted',getState())
+                console.log('extra',arg)
+                queryFulfilled.then(()=>{
+                    // removeItem(arg)
+                    console.log('fullfiled getState onQueryStarted',requestId,getState().books.bookItems)
+                })
+            },
         })
     })
 });

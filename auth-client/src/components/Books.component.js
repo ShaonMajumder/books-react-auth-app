@@ -10,11 +10,13 @@ import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import apiClient,{book_delete_url,useAddBookMutation, useDeleteBookMutation} from '../services/api';
 import { Redirect, useHistory } from 'react-router-dom';
-
+import store from '../store'
+import { removeItem } from '../reducers/bookSlice';
 // import { getBookItems } from '../reducers/bookSlice';
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
+    const dispatch = useDispatch();
     const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const history = useHistory();
     const [validationError,setValidationError] = useState({})
@@ -53,27 +55,24 @@ const BookList = (props) => {
           //     })
           //   }
           // })
+          
 
-          await deleteBook(id)
-        //   .unwrap()
-        //   .then((payload) => {
-        //     console.log('success deletation',payload)
-        //     Swal.fire({
-        //       icon:"success",
-        //       text: payload.message
-        //     })
-        //     history.push('/')
-        //   })
-        //   .catch((error) => console.error('rejected', error))
-
-          // .then(({data})=>{
-            //   Swal.fire({
-            //     icon:"success",
-            //     text:data.message
-            //   })
-              
-            //   history.push('/')
-              
+         const abc = await deleteBook(id)
+          .unwrap()
+          .then(( response ) => {
+            console.log('success deletation',response.originalArg)
+            // console.log('Get State',store.getState().books.bookItems)
+            // store.getState().books.bookItems = []
+            // store.dispatch(deleteTodo('Read the docs'))
+            Swal.fire({
+              icon:"success",
+              text: response.data.message
+            })
+            history.push('/')
+            dispatch(removeItem(response.originalArg))
+          })
+          .catch((error) => console.error('rejected', error))
+  
             // }).catch(({response})=>{
             //   if(response.status===422){
             //     setValidationError(response.data.errors)

@@ -3,6 +3,7 @@ import apiClient,{booksApi, book_url} from "../services/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {useHistory} from 'react-router-dom';
+import store from "../store";
 
 const initialState = {
   bookItems: [],
@@ -45,6 +46,12 @@ const bookSlice = createSlice({
     clearBookList: (state) => {
       state.bookItems = [];
     },
+    removeItem: (state, action) => {
+      const itemId = action.payload;
+      state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
+      console.log('remove Item ',state,action,state.bookItems)
+      
+    },
     nextPage: async (state) => {
       try {
         console.log('next page reducer')
@@ -66,9 +73,19 @@ const bookSlice = createSlice({
    
   },
   extraReducers: (builder) => {
-    
+
     console.log('builder output',builder)
-    builder.addMatcher(
+    // console.log('Delete State',getState())
+    builder
+    .addMatcher(
+      isAllOf(booksApi.endpoints.books.matchFulfilled),
+      (state, payload ) => {
+        // console.log('Books Index reducer ',state)
+        console.log('Books Index Create from extra reducer',payload.payload.data.books.data)
+        state.bookItems = payload.payload.data.books.data;
+      }
+    )
+    .addMatcher(
       isAllOf(booksApi.endpoints.addBook.matchFulfilled),
       (state, payload ) => {
         console.log('Create reducer m',state)
@@ -79,31 +96,24 @@ const bookSlice = createSlice({
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
         
-        // state.isGood = payload.isGood
-        let data = payload.payload
-
-        console.log('Delete reducer m',state,payload.payload)
-        console.log('Delete from extra reducer',state.bookItems)
-
-        Swal.fire({
-          icon:"success",
-          text:data.message
-        })
-        const history = useHistory();
-        history.push('/')
-        // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
-          //   Swal.fire({
-          //     icon:"success",
-          //     text:data.message
-          //   })
-            
-          //   history.push('/')
-            
-          // }).catch(({response})=>{
-          //   
-          // })
-
+        // console.log('Extra Reducer after delete state',store.getState())
         
+        // // state.isGood = payload.isGood
+        // let data = payload.payload
+        // let bookId = payload.meta.arg.originalArgs
+
+        // console.log('Delete state',state)
+        // console.log('Delete Payload', payload)
+        // console.log('Delete bookItems',state.bookItems)
+        
+        // state.bookItems = state.bookItems.filter((book) => book.id !== bookId);
+
+        // Swal.fire({
+        //   icon:"success",
+        //   text:data.message
+        // })
+        // const history = useHistory();
+        // history.push('/')
       }
     )
     .addMatcher(
@@ -130,7 +140,6 @@ const bookSlice = createSlice({
           //     })
           //   }
         
-        
       }
     )
   },
@@ -155,6 +164,6 @@ const bookSlice = createSlice({
 
 
 //console.log(bookSlice);
-export const { clearBookList, nextPage, setLoggedIn, setLoggedOut } = bookSlice.actions;
+export const { clearBookList, nextPage,removeItem, setLoggedIn, setLoggedOut } = bookSlice.actions;
 
 export default bookSlice.reducer;
