@@ -29,13 +29,14 @@ date: 18-10-2022
         - Pagination
         - Button
 
-    - How to store the result of query from createApi in a slice (unimplemented)
+    - How to store the result of query from createApi in a slice
 
 
     change classname conditionally react
+- Redux - slice and createApi combined for data deletation
 
-
-
+### API Features
+Customized Error Handling - 404
 
 
 
@@ -289,8 +290,9 @@ https://hooks.reactivers.com/use-auth
     * Event Loop
     * Hooks
     * Redux
-
+- Laravel API returns a view 404 error instead of JSON error - https://stackoverflow.com/questions/56401115/laravel-api-returns-a-view-404-error-instead-of-json-error
 Next To Learn
+    - Higher Order Component
     - placing pagination buttons
     - https://stackoverflow.com/questions/68612556/how-to-store-the-result-of-query-from-createapi-in-a-slice
 

@@ -1,6 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isAllOf } from "@reduxjs/toolkit";
 import apiClient,{booksApi, book_url} from "../services/api";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import {useHistory} from 'react-router-dom';
+import store from "../store";
 
 const initialState = {
   bookItems: [],
@@ -9,6 +12,7 @@ const initialState = {
   total: 0,
   isLoading: true,
 };
+
 
 //Fetch
 // export const getBookItems = createAsyncThunk("book/getBookItems", () => {
@@ -42,6 +46,12 @@ const bookSlice = createSlice({
     clearBookList: (state) => {
       state.bookItems = [];
     },
+    removeItem: (state, action) => {
+      const itemId = action.payload;
+      state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
+      console.log('remove Item ',state,action,state.bookItems)
+      console.log(store)
+    },
     nextPage: async (state) => {
       try {
         console.log('next page reducer')
@@ -63,17 +73,50 @@ const bookSlice = createSlice({
    
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      booksApi.endpoints.addBook.matchFulfilled,
-      (state, { payload }) => {
-        console.log('add book reducer m',state)
-        console.log('from extra reducer',state.bookItems,payload)
+
+    console.log('builder output',builder)
+    // console.log('Delete State',getState())
+    builder
+    .addMatcher(
+      isAllOf(booksApi.endpoints.books.matchFulfilled),
+      (state, payload ) => {
+        // console.log('Books Index reducer ',state)
+        console.log('Books Index Create from extra reducer',payload.payload.data.books.data)
+        state.bookItems = payload.payload.data.books.data;
       }
-    ).addMatcher(
-      booksApi.endpoints.deleteBook.matchFulfilled,
-      (state, { payload }) => {
-        console.log('delete book reducer m',state)
-        console.log('from extra reducer',state.bookItems,payload)
+    )
+    .addMatcher(
+      isAllOf(booksApi.endpoints.addBook.matchFulfilled),
+      (state, payload ) => {
+        console.log('Create reducer m',state)
+        console.log('Create from extra reducer',state.bookItems)
+      }
+    )
+    .addMatcher(
+      isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
+      (state, payload ) => {
+        let response = payload.payload.data
+        let bookId = payload.payload.originalArg        
+        // console.log('Endpoint Hook listeners => state and payload',state,payload)
+        state.bookItems = state.bookItems.filter((book) => book.id !== bookId);
+      }
+    )
+    .addMatcher(
+      isAllOf(booksApi.endpoints.deleteBook.matchRejected),
+      (state, payload ) => {
+        console.log(state,payload)
+        let data = payload.payload.data
+        console.log(payload.payload.data.errors)
+        
+        let errors = Object.entries(payload.payload.data.errors).map(([key, value])=>(
+          value
+        ))
+
+        Swal.fire({
+            text: errors,
+            icon:"error"
+        })
+        
       }
     )
   },
@@ -98,6 +141,6 @@ const bookSlice = createSlice({
 
 
 //console.log(bookSlice);
-export const { clearBookList, nextPage, setLoggedIn, setLoggedOut } = bookSlice.actions;
+export const { clearBookList, nextPage,removeItem, setLoggedIn, setLoggedOut } = bookSlice.actions;
 
 export default bookSlice.reducer;

@@ -25,7 +25,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('books')->name('books.')->group(function(){
         Route::get('/', [BookController::class, "listBooks"]);
         Route::post('/add', [BookController::class, "addBook"]);
-        Route::post('/delete/{id}', [BookController::class, "deleteBook"]);
+        Route::delete('/delete/{id}',  [BookController::class, "deleteBook"]);
     });
 });
 
+// Route::fallback(function () {
+//     return response()->json(['error' => 'Not Found!'], 404);
+// });

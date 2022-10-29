@@ -8,13 +8,17 @@ import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
-import apiClient,{book_delete_url,useAddBookMutation} from '../services/api';
+import apiClient,{book_delete_url,useAddBookMutation, useDeleteBookMutation} from '../services/api';
 import { Redirect, useHistory } from 'react-router-dom';
-
+import store from '../store'
+import { removeItem } from '../reducers/bookSlice';
 // import { getBookItems } from '../reducers/bookSlice';
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
+    const [bookItemsK, setBookItemsK] = useState([]);
+    const dispatch = useDispatch();
+    const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const history = useHistory();
     const [validationError,setValidationError] = useState({})
     const deleteProduct = async (id) => {
@@ -34,31 +38,61 @@ const BookList = (props) => {
             return;
           }
 
-          await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+          // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+          //   Swal.fire({
+          //     icon:"success",
+          //     text:data.message
+          //   })
+            
+          //   history.push('/')
+            
+          // }).catch(({response})=>{
+          //   if(response.status===422){
+          //     setValidationError(response.data.errors)
+          //   }else{
+          //     Swal.fire({
+          //       text:response.data.message,
+          //       icon:"error"
+          //     })
+          //   }
+          // })
+          
+
+         const abc = await deleteBook(id)
+          .unwrap()
+          .then(( response ) => {
+            console.log('success deletation',response)
+            
+            // console.log('Get State',store.getState().books.bookItems)
+            // store.getState().books.bookItems = []
+            // store.dispatch(deleteTodo('Read the docs'))
             Swal.fire({
               icon:"success",
-              text:data.message
+              text: response.data.message
             })
-            
             history.push('/')
-            
-          }).catch(({response})=>{
-            if(response.status===422){
-              setValidationError(response.data.errors)
-            }else{
-              Swal.fire({
-                text:response.data.message,
-                icon:"error"
-              })
-            }
+            dispatch(removeItem(response.originalArg))
           })
-
+          .catch((error) => console.error('rejected', error))
+  
+            // }).catch(({response})=>{
+            //   if(response.status===422){
+            //     setValidationError(response.data.errors)
+            //   }else{
+            //     Swal.fire({
+            //       text:response.data.message,
+            //       icon:"error"
+            //     })
+            //   }
+            // })
          
     }
 
     // const [current_page, setCurrentPage] = useState(1);
     // const [last_page, setLastPage] = useState(1);
+    
     const [page, setPage] = useState(1);
+    
     var bookItems2 = [];
     var current_page = 0;
     var last_page = 0;
@@ -67,14 +101,16 @@ const BookList = (props) => {
     const [addBook, { isLoading2 }] = useAddBookMutation()
     
     if(data){
+        
+        // console.log(bookItemsK)
         bookItems2 = data.data.books.data
         current_page = data.data.books.current_page
         last_page = data.data.books.last_page
         data_prop = [1,current_page,last_page, isSuccess, setPage];
         // setCurrentPage(current_page)
         // setLastPage(last_page)
-        console.log('data fetching', bookItems2)
-        console.log('data full', data)
+        // console.log('data fetching', bookItems2)
+        // console.log('data full', data)
     }
     
     /*
@@ -93,9 +129,13 @@ const BookList = (props) => {
     
     */
 
-
+    
+   
+   const { bookItems, errork, isLoadingk, isSuccessk } = useSelector((store) => store.books);
     if (props.loggedIn) {
-        const bookList = bookItems2.map(({ id, title, author }) => 
+        // console.log('geTSTATE ',store.getState().books.bookItems)
+        console.log('experimental GetState',bookItems)
+        const bookList = bookItems.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>
                 <td>{title}</td>
@@ -108,7 +148,7 @@ const BookList = (props) => {
             </tr>
         );
 
-        console.log('data props', data_prop)
+        // console.log('data props', data_prop)
         
         return (
             <div className="list-group">
