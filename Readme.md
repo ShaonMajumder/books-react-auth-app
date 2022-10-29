@@ -292,6 +292,7 @@ https://hooks.reactivers.com/use-auth
     * Redux
 - Laravel API returns a view 404 error instead of JSON error - https://stackoverflow.com/questions/56401115/laravel-api-returns-a-view-404-error-instead-of-json-error
 Next To Learn
+    - Higher Order Component
     - placing pagination buttons
     - https://stackoverflow.com/questions/68612556/how-to-store-the-result-of-query-from-createapi-in-a-slice
 

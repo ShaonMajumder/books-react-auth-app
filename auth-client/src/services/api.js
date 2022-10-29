@@ -56,7 +56,7 @@ export const booksApi = createApi({
                 method: 'DELETE'
             }),
             transformResponse: (response, meta, arg) => {
-                console.log('transofrm')
+                console.log('deleteBook => transformResponse')
                 return {
                     originalArg: arg,
                     data: response,
@@ -68,10 +68,10 @@ export const booksApi = createApi({
             ) {
                 
                 // console.log('getState onQueryStarted',getState())
-                console.log('extra',arg)
+                console.log('deleteBook => onQueryStarted, arg',arg)
                 queryFulfilled.then(()=>{
-                    // removeItem(arg)
-                    console.log('fullfiled getState onQueryStarted',requestId,getState().books.bookItems)
+                console.log('deleteBook => onQueryStarted getState()',requestId,getState())
+                
                 })
             },
         })

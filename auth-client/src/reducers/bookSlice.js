@@ -50,7 +50,7 @@ const bookSlice = createSlice({
       const itemId = action.payload;
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
       console.log('remove Item ',state,action,state.bookItems)
-      
+      console.log(store)
     },
     nextPage: async (state) => {
       try {
@@ -95,25 +95,10 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
-        
-        // console.log('Extra Reducer after delete state',store.getState())
-        
-        // // state.isGood = payload.isGood
-        // let data = payload.payload
-        // let bookId = payload.meta.arg.originalArgs
-
-        // console.log('Delete state',state)
-        // console.log('Delete Payload', payload)
-        // console.log('Delete bookItems',state.bookItems)
-        
-        // state.bookItems = state.bookItems.filter((book) => book.id !== bookId);
-
-        // Swal.fire({
-        //   icon:"success",
-        //   text:data.message
-        // })
-        // const history = useHistory();
-        // history.push('/')
+        let response = payload.payload.data
+        let bookId = payload.payload.originalArg        
+        // console.log('Endpoint Hook listeners => state and payload',state,payload)
+        state.bookItems = state.bookItems.filter((book) => book.id !== bookId);
       }
     )
     .addMatcher(
@@ -131,14 +116,6 @@ const bookSlice = createSlice({
             text: errors,
             icon:"error"
         })
-        // if(response.status===422){
-          //     setValidationError(data.errors)
-          //   }else{
-          //     Swal.fire({
-          //       text:response.data.message,
-          //       icon:"error"
-          //     })
-          //   }
         
       }
     )

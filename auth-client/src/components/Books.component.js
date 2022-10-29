@@ -16,6 +16,7 @@ import { removeItem } from '../reducers/bookSlice';
 import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
+    const [bookItemsK, setBookItemsK] = useState([]);
     const dispatch = useDispatch();
     const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const history = useHistory();
@@ -60,7 +61,8 @@ const BookList = (props) => {
          const abc = await deleteBook(id)
           .unwrap()
           .then(( response ) => {
-            console.log('success deletation',response.originalArg)
+            console.log('success deletation',response)
+            
             // console.log('Get State',store.getState().books.bookItems)
             // store.getState().books.bookItems = []
             // store.dispatch(deleteTodo('Read the docs'))
@@ -83,14 +85,14 @@ const BookList = (props) => {
             //     })
             //   }
             // })
-  
-
          
     }
 
     // const [current_page, setCurrentPage] = useState(1);
     // const [last_page, setLastPage] = useState(1);
+    
     const [page, setPage] = useState(1);
+    
     var bookItems2 = [];
     var current_page = 0;
     var last_page = 0;
@@ -99,6 +101,8 @@ const BookList = (props) => {
     const [addBook, { isLoading2 }] = useAddBookMutation()
     
     if(data){
+        
+        // console.log(bookItemsK)
         bookItems2 = data.data.books.data
         current_page = data.data.books.current_page
         last_page = data.data.books.last_page
@@ -125,9 +129,13 @@ const BookList = (props) => {
     
     */
 
-
+    
+   
+   const { bookItems, errork, isLoadingk, isSuccessk } = useSelector((store) => store.books);
     if (props.loggedIn) {
-        const bookList = bookItems2.map(({ id, title, author }) => 
+        // console.log('geTSTATE ',store.getState().books.bookItems)
+        console.log('experimental GetState',bookItems)
+        const bookList = bookItems.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>
                 <td>{title}</td>
