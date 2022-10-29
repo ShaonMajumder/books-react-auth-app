@@ -8,13 +8,14 @@ import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
-import apiClient,{book_delete_url,useAddBookMutation} from '../services/api';
+import apiClient,{book_delete_url,useAddBookMutation, useDeleteBookMutation} from '../services/api';
 import { Redirect, useHistory } from 'react-router-dom';
 
 // import { getBookItems } from '../reducers/bookSlice';
 // import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
+    const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const history = useHistory();
     const [validationError,setValidationError] = useState({})
     const deleteProduct = async (id) => {
@@ -34,24 +35,56 @@ const BookList = (props) => {
             return;
           }
 
-          await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
-            Swal.fire({
-              icon:"success",
-              text:data.message
-            })
+          // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+          //   Swal.fire({
+          //     icon:"success",
+          //     text:data.message
+          //   })
             
-            history.push('/')
+          //   history.push('/')
             
-          }).catch(({response})=>{
-            if(response.status===422){
-              setValidationError(response.data.errors)
-            }else{
-              Swal.fire({
-                text:response.data.message,
-                icon:"error"
-              })
-            }
-          })
+          // }).catch(({response})=>{
+          //   if(response.status===422){
+          //     setValidationError(response.data.errors)
+          //   }else{
+          //     Swal.fire({
+          //       text:response.data.message,
+          //       icon:"error"
+          //     })
+          //   }
+          // })
+
+          await deleteBook(id)
+        //   .unwrap()
+        //   .then((payload) => {
+        //     console.log('success deletation',payload)
+        //     Swal.fire({
+        //       icon:"success",
+        //       text: payload.message
+        //     })
+        //     history.push('/')
+        //   })
+        //   .catch((error) => console.error('rejected', error))
+
+          // .then(({data})=>{
+            //   Swal.fire({
+            //     icon:"success",
+            //     text:data.message
+            //   })
+              
+            //   history.push('/')
+              
+            // }).catch(({response})=>{
+            //   if(response.status===422){
+            //     setValidationError(response.data.errors)
+            //   }else{
+            //     Swal.fire({
+            //       text:response.data.message,
+            //       icon:"error"
+            //     })
+            //   }
+            // })
+  
 
          
     }
@@ -73,8 +106,8 @@ const BookList = (props) => {
         data_prop = [1,current_page,last_page, isSuccess, setPage];
         // setCurrentPage(current_page)
         // setLastPage(last_page)
-        console.log('data fetching', bookItems2)
-        console.log('data full', data)
+        // console.log('data fetching', bookItems2)
+        // console.log('data full', data)
     }
     
     /*
@@ -108,7 +141,7 @@ const BookList = (props) => {
             </tr>
         );
 
-        console.log('data props', data_prop)
+        // console.log('data props', data_prop)
         
         return (
             <div className="list-group">

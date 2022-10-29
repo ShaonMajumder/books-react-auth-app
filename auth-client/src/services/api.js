@@ -21,6 +21,7 @@ export const booksApi = createApi({
             const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true' || false
             headers.set('Access-Control-Allow-Origin', client_url)
             headers.set('Content-Type', 'application/json')
+            headers.set('Accept', 'application/json') // For laravel json detection
             headers.set('Access-Control-Allow-Credentials', 'true')
             if (isLoggedIn) {
                 headers.set('Authorization', `Bearer ${Cookies.get('access_token')}`)
@@ -50,7 +51,7 @@ export const booksApi = createApi({
         }),
         deleteBook: builder.mutation({
             query: (id) => ({
-                url : `books/update/${id}`,
+                url : `books/delete/${id}`,
                 method: 'DELETE'
             }),
             transformResponse: (response, meta, arg) => response,

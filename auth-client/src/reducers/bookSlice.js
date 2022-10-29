@@ -1,6 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isAllOf } from "@reduxjs/toolkit";
 import apiClient,{booksApi, book_url} from "../services/api";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import {useHistory} from 'react-router-dom';
 
 const initialState = {
   bookItems: [],
@@ -9,6 +11,7 @@ const initialState = {
   total: 0,
   isLoading: true,
 };
+
 
 //Fetch
 // export const getBookItems = createAsyncThunk("book/getBookItems", () => {
@@ -63,11 +66,71 @@ const bookSlice = createSlice({
    
   },
   extraReducers: (builder) => {
+    
+    console.log('builder output',builder)
     builder.addMatcher(
-      booksApi.endpoints.addBook.matchFulfilled,
-      (state, { payload }) => {
-        console.log('reducer m',state)
-        console.log('from extra reducer',state.bookItems)
+      isAllOf(booksApi.endpoints.addBook.matchFulfilled),
+      (state, payload ) => {
+        console.log('Create reducer m',state)
+        console.log('Create from extra reducer',state.bookItems)
+      }
+    )
+    .addMatcher(
+      isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
+      (state, payload ) => {
+        
+        // state.isGood = payload.isGood
+        let data = payload.payload
+
+        console.log('Delete reducer m',state,payload.payload)
+        console.log('Delete from extra reducer',state.bookItems)
+
+        Swal.fire({
+          icon:"success",
+          text:data.message
+        })
+        const history = useHistory();
+        history.push('/')
+        // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+          //   Swal.fire({
+          //     icon:"success",
+          //     text:data.message
+          //   })
+            
+          //   history.push('/')
+            
+          // }).catch(({response})=>{
+          //   
+          // })
+
+        
+      }
+    )
+    .addMatcher(
+      isAllOf(booksApi.endpoints.deleteBook.matchRejected),
+      (state, payload ) => {
+        console.log(state,payload)
+        let data = payload.payload.data
+        console.log(payload.payload.data.errors)
+        
+        let errors = Object.entries(payload.payload.data.errors).map(([key, value])=>(
+          value
+        ))
+
+        Swal.fire({
+            text: errors,
+            icon:"error"
+        })
+        // if(response.status===422){
+          //     setValidationError(data.errors)
+          //   }else{
+          //     Swal.fire({
+          //       text:response.data.message,
+          //       icon:"error"
+          //     })
+          //   }
+        
+        
       }
     )
   },

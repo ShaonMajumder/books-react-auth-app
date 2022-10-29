@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import '../resources/app.css';
 
 const PaginationCustom = (props) => {
-    console.log('fetch props',props.props)
+    // console.log('fetch props',props.props)
     var [first_page, current_page, last_page, isSuccess, setPage] = props.props
     
     return (    
