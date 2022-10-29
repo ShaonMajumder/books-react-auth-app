@@ -151,8 +151,23 @@ php artisan serve
 ```
 
 to kill a specified port process - 
+ubuntu
 ```bash
 sudo fuser -k port_number/tcp
+```
+<br>
+<br>
+
+Mac<br>
+To get Pid -
+```
+netstat -vanp tcp | grep 3000
+or
+lsof -i tcp:3000
+```
+To kill with pid
+```
+kill -9 <pid>
 ```
 
 ### Errors
