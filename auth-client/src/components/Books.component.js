@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import apiClient,{book_delete_url,useAddBookMutation, useDeleteBookMutation} from '../services/api';
 import { Redirect, useHistory } from 'react-router-dom';
 import store from '../store'
-import { removeItem } from '../reducers/bookSlice';
+import { removeItem, setPageItem} from '../reducers/bookSlice';
 // import { getBookItems } from '../reducers/bookSlice';
 import { useDispatch, useSelector } from "react-redux";
 
@@ -94,11 +94,12 @@ const BookList = (props) => {
          
     }
     const [page, setPage] = useState(1);
-
+    
     //run createApi query, set data from reducer listner, then access data into component from store
-    useBooksQuery(page, {skip: !props.loggedIn});
-    const { bookItems, total, per_page, current_page, last_page, error, isLoading, isSuccess } = useSelector((store) => store.books);
-    var data_prop = [1,current_page,last_page, isSuccess, setPage];
+    const { current_page } = useSelector((store) => store.books)
+    useBooksQuery(current_page, {skip: !props.loggedIn});
+    const { bookItems, total, per_page,  last_page, error, isLoading, isSuccess } = useSelector((store) => store.books);
+    var data_prop = [current_page,last_page, isSuccess, setPage, setPageItem];
 
     
 

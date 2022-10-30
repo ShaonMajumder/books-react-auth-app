@@ -32,7 +32,10 @@ export const booksApi = createApi({
     }),
     endpoints: (builder) => ({
         books: builder.query({
-            query: (page = 1) => `/books?page=${page}`
+            query: (page = 1) => {
+                console.log("OK");
+                return `/books?page=${page}`;
+            }
         }),
         addBook: builder.mutation({
             query: (book) => ({

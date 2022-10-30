@@ -9,7 +9,7 @@ const initialState = {
   bookItems: [],
   total: 0,
   per_page : 0,
-  current_page : 0,
+  current_page : 1,
   last_page : 0,
   isLoggedIn: false,
   isLoading: true,
@@ -52,6 +52,26 @@ const bookSlice = createSlice({
       const itemId = action.payload;
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
     },
+    setPageItem: (state,action) => {
+      console.log('setPage ======= > ',action, current(state))
+      
+      // state.bookItems = [] //forbiden assigning for mutability why it is not rerendering
+      state.current_page = action.payload
+      state.bookItems = state.bookItems.filter(todo => todo.id !== action.payload)
+
+      // return {
+      //   ...state,
+      //   current_page: action.payload
+      // }
+
+
+      
+      // state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
+      // return {
+      //   ...state,
+      //   current_page : action.payload.current_page
+      // }
+    },
     setLoggedIn: (state) => {
       state.isLoggedIn = true
       sessionStorage.setItem('loggedIn',true)
@@ -71,7 +91,7 @@ const bookSlice = createSlice({
         console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
         
         //setting responsed data to store by api endpoints rtk-query listener
-        state.bookItems = payload.payload.data.books.data;
+        state.bookItems = Object.freeze(payload.payload.data.books.data.slice()) ;
         state.total = payload.payload.data.books.total
         state.per_page = payload.payload.data.books.per_page
         state.current_page = payload.payload.data.books.current_page
@@ -136,6 +156,6 @@ const bookSlice = createSlice({
 
 
 //console.log(bookSlice);
-export const { clearBookList, nextPage,removeItem, setLoggedIn, setLoggedOut } = bookSlice.actions;
+export const { clearBookList, nextPage,removeItem, setLoggedIn, setLoggedOut, setPageItem } = bookSlice.actions;
 
 export default bookSlice.reducer;
