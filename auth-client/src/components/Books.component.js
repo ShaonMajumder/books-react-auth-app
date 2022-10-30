@@ -16,10 +16,9 @@ import { removeItem } from '../reducers/bookSlice';
 import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
-    const [bookItemsK, setBookItemsK] = useState([]);
     const dispatch = useDispatch();
-    const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const history = useHistory();
+    const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
     const [validationError,setValidationError] = useState({})
     const deleteProduct = async (id) => {
         const isConfirm = await Swal.fire({
@@ -30,90 +29,81 @@ const BookList = (props) => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+        }).then((result) => {
             return result.isConfirmed
-          });
+        });
 
-          if(!isConfirm){
+        if(!isConfirm){
             return;
-          }
+        }
 
-          // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
-          //   Swal.fire({
-          //     icon:"success",
-          //     text:data.message
-          //   })
-            
-          //   history.push('/')
-            
-          // }).catch(({response})=>{
-          //   if(response.status===422){
-          //     setValidationError(response.data.errors)
-          //   }else{
-          //     Swal.fire({
-          //       text:response.data.message,
-          //       icon:"error"
-          //     })
-          //   }
-          // })
-          
+        // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
+        //   Swal.fire({
+        //     icon:"success",
+        //     text:data.message
+        //   })
+        
+        //   history.push('/')
+        
+        // }).catch(({response})=>{
+        //   if(response.status===422){
+        //     setValidationError(response.data.errors)
+        //   }else{
+        //     Swal.fire({
+        //       text:response.data.message,
+        //       icon:"error"
+        //     })
+        //   }
+        // })
+        
+        // dispatch(removeItem(response.originalArg))
+        // // console.log('Get State',store.getState().books.bookItems)
 
-         const abc = await deleteBook(id)
-          .unwrap()
-          .then(( response ) => {
-            // console.log('Get State',store.getState().books.bookItems)
+
+
+        // dispatch(
+        //     deleteBook(id).unwrap().then(( response ) => {
+        //         Swal.fire({
+        //             icon:"success",
+        //             text: response.data.message
+        //         })
+        //     } )
+        // );
+
+        const abc = await deleteBook(id)
+        .unwrap()
+        .then(( response ) => {
             Swal.fire({
-              icon:"success",
-              text: response.data.message
+                icon:"success",
+                text: response.data.message
             })
             history.push('/')
-            dispatch(removeItem(response.originalArg))
-          })
-          .catch((error) => console.error('rejected', error))
+        })
+        .catch((error) => console.error('rejected', error))
   
-            // }).catch(({response})=>{
-            //   if(response.status===422){
-            //     setValidationError(response.data.errors)
-            //   }else{
-            //     Swal.fire({
-            //       text:response.data.message,
-            //       icon:"error"
-            //     })
-            //   }
-            // })
+        // }).catch(({response})=>{
+        //   if(response.status===422){
+        //     setValidationError(response.data.errors)
+        //   }else{
+        //     Swal.fire({
+        //       text:response.data.message,
+        //       icon:"error"
+        //     })
+        //   }
+        // })
          
     }
-
-    // const [current_page, setCurrentPage] = useState(1);
-    // const [last_page, setLastPage] = useState(1);
-    
     const [page, setPage] = useState(1);
+
+    //run createApi query, set data from reducer listner, then access data into component from store
+    useBooksQuery(page, {skip: !props.loggedIn});
+    const { bookItems, total, per_page, current_page, last_page, error, isLoading, isSuccess } = useSelector((store) => store.books);
+    var data_prop = [1,current_page,last_page, isSuccess, setPage];
+
     
-    var bookItems2 = [];
-    var current_page = 0;
-    var last_page = 0;
-    var data_prop = [];
-    const { data,  error, isLoading, isSuccess} = useBooksQuery(page, {skip: !props.loggedIn});
-    const [addBook, { isLoading2 }] = useAddBookMutation()
-    
-    if(data){
-        
-        // console.log(bookItemsK)
-        bookItems2 = data.data.books.data
-        current_page = data.data.books.current_page
-        last_page = data.data.books.last_page
-        data_prop = [1,current_page,last_page, isSuccess, setPage];
-        // setCurrentPage(current_page)
-        // setLastPage(last_page)
-        // console.log('data fetching', bookItems2)
-        // console.log('data full', data)
-    }
+
     
     /*
-    const dispatch = useDispatch();
-    const { bookItems, error, isLoading, isSuccess } = useSelector((store) => store.books);
-    console.log('test book items',bookItems)
-    const isLoggedIn = useSelector((store) => store.books.isLoggedIn);
     console.log("If is logged in",isLoggedIn)
     const [books, setBooks] = React.useState([]);
     React.useEffect(() => {
@@ -127,10 +117,9 @@ const BookList = (props) => {
 
     
    
-   const { bookItems, errork, isLoadingk, isSuccessk } = useSelector((store) => store.books);
     if (props.loggedIn) {
         // console.log('geTSTATE ',store.getState().books.bookItems)
-        console.log('experimental GetState',bookItems)
+        // console.log('experimental GetState',bookItems)
         const bookList = bookItems.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>

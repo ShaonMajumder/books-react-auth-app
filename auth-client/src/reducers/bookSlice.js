@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isAllOf } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isAllOf, current } from "@reduxjs/toolkit";
 import apiClient,{booksApi, book_url} from "../services/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -7,9 +7,11 @@ import store from "../store";
 
 const initialState = {
   bookItems: [],
-  isLoggedIn: false,
-  amount: 4,
   total: 0,
+  per_page : 0,
+  current_page : 0,
+  last_page : 0,
+  isLoggedIn: false,
   isLoading: true,
 };
 
@@ -50,16 +52,6 @@ const bookSlice = createSlice({
       const itemId = action.payload;
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
     },
-    nextPage: async (state) => {
-      try {
-        console.log('next page reducer')
-        const resp = await apiClient.get(book_url);
-        state.bookItems = resp.data.data.books
-      } catch (error) {
-        // return thunkAPI.rejectWithValue("next page something went wrong");
-        console.log("next page something went wrong");
-      }
-    },
     setLoggedIn: (state) => {
       state.isLoggedIn = true
       sessionStorage.setItem('loggedIn',true)
@@ -76,9 +68,14 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.books.matchFulfilled),
       (state, payload ) => {
-        // console.log('Books Index reducer ',state)
-        console.log('Books Index Create from extra reducer',payload.payload.data.books.data)
+        console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
+        
+        //setting responsed data to store by api endpoints rtk-query listener
         state.bookItems = payload.payload.data.books.data;
+        state.total = payload.payload.data.books.total
+        state.per_page = payload.payload.data.books.per_page
+        state.current_page = payload.payload.data.books.current_page
+        state.last_page = payload.payload.data.books.last_page
       }
     )
     .addMatcher(
@@ -91,10 +88,12 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
-        let response = payload.payload.data
-        let bookId = payload.payload.originalArg        
-        // console.log('Endpoint Hook listeners => state and payload',state,payload)
+        let bookId = payload.payload.originalArg
+        const { bookItems, current_page, isLoading, isLoggedIn, last_page, per_page, total } = current(state)
         state.bookItems = state.bookItems.filter((book) => book.id !== bookId);
+        state.total = total - 1
+        // after removing
+        console.log('Endpoint Hook listeners => state',bookItems,total)
       }
     )
     .addMatcher(

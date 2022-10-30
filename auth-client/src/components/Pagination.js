@@ -10,7 +10,7 @@ const PaginationCustom = (props) => {
     
     return (    
         <Pagination>
-            <Pagination.First 
+            {/* <Pagination.First 
                 style={{display: current_page !== 1 ? 'block' : 'none' }} 
                 onClick={
                     () => {
@@ -22,12 +22,17 @@ const PaginationCustom = (props) => {
                 isLoading={isSuccess}
             />
 
+            
+*/}
             <Pagination.Prev 
                 style={{display: current_page !== 1 ? 'block' : 'none' }}
                 onClick={
                     () => { 
                         if(current_page > 1){
                             setPage(current_page - 1)
+                            console.log('go to previous page') 
+                            console.log('current_page',current_page)
+                            console.log('last_page',last_page)
                         }
                     }
                 }
@@ -35,11 +40,14 @@ const PaginationCustom = (props) => {
             />
 
             <Pagination.Item 
-                style={{display: (current_page !== 1) ? 'block' : 'none' }} 
+                // style={{display: (current_page !== 1) ? 'block' : 'none' }} 
                 onClick={
                     () => { 
                         if(current_page !== 1){
                             setPage(1)
+                            console.log('go to first page') 
+                            console.log('current_page',current_page)
+                            console.log('last_page',last_page)
                         }
                     }
                 }
@@ -56,7 +64,7 @@ const PaginationCustom = (props) => {
 
             <Pagination.Ellipsis 
                 style={{display: (last_page > 3 && ( current_page !== last_page && current_page !== 1 ) ) ? 'block' : 'none' }}
-            />
+            /> 
 
             <Pagination.Item
                 style={{display: (last_page > 1 && current_page !== last_page ) ? 'block' : 'none' }}
@@ -64,6 +72,9 @@ const PaginationCustom = (props) => {
                     () => { 
                         if(current_page !== last_page){
                             setPage(last_page)
+                            console.log('go to last page') 
+                            console.log('current_page',current_page)
+                            console.log('last_page',last_page)
                         }
                     }
                 }
@@ -75,7 +86,10 @@ const PaginationCustom = (props) => {
                 onClick={
                     () => {
                         if(current_page < last_page){
-                            setPage(current_page + 1)   
+                            setPage(current_page + 1)
+                            console.log('go to next page') 
+                            console.log('current_page',current_page)
+                            console.log('last_page',last_page)  
                         }
                     }
                 }
@@ -87,7 +101,10 @@ const PaginationCustom = (props) => {
                 onClick={
                     () => {
                         if(current_page !== last_page){
-                            setPage(last_page)   
+                            setPage(last_page)  
+                            console.log('go to last page') 
+                            console.log('current_page',current_page)
+                            console.log('last_page',last_page)
                         }
                     }
                 }

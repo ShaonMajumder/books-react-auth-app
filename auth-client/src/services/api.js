@@ -77,7 +77,7 @@ export const booksApi = createApi({
         })
     })
 });
-console.log(booksApi)
+
 export const {
     endpoints,
     reducerPath, 
