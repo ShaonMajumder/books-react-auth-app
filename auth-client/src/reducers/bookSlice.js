@@ -53,7 +53,11 @@ const bookSlice = createSlice({
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
     },
     setPageItem: (state,action) => {
-      state.current_page = action.payload
+      // state.current_page = action.payload
+      return {
+        ...state,
+        current_page : action.payload
+      }
       // console.log(useBooksQuery(action.payload))
     },
     setLoggedIn: (state) => {
