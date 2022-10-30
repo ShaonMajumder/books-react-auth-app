@@ -49,8 +49,6 @@ const bookSlice = createSlice({
     removeItem: (state, action) => {
       const itemId = action.payload;
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
-      console.log('remove Item ',state,action,state.bookItems)
-      console.log(store)
     },
     nextPage: async (state) => {
       try {
@@ -73,8 +71,6 @@ const bookSlice = createSlice({
    
   },
   extraReducers: (builder) => {
-
-    console.log('builder output',builder)
     // console.log('Delete State',getState())
     builder
     .addMatcher(

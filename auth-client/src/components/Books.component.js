@@ -61,11 +61,7 @@ const BookList = (props) => {
          const abc = await deleteBook(id)
           .unwrap()
           .then(( response ) => {
-            console.log('success deletation',response)
-            
             // console.log('Get State',store.getState().books.bookItems)
-            // store.getState().books.bookItems = []
-            // store.dispatch(deleteTodo('Read the docs'))
             Swal.fire({
               icon:"success",
               text: response.data.message
