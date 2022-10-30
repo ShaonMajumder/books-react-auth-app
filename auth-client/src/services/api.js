@@ -35,7 +35,7 @@ export const booksApi = createApi({
             query: (page = 1) => {
                 console.log("OK");
                 return `/books?page=${page}`;
-            }
+            },
         }),
         addBook: builder.mutation({
             query: (book) => ({

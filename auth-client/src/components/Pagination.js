@@ -4,7 +4,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Button from 'react-bootstrap/Button';
 import '../resources/app.css';
 import { useDispatch } from 'react-redux';
-
+import { useBooksQuery } from '../services/api';
 
 function PaginationCustom (props)  {
     // console.log('fetch props',props.props)
@@ -34,6 +34,7 @@ function PaginationCustom (props)  {
                     () => { 
                         if(current_page > 1){
                             // setPage(current_page - 1)
+                            
                             dispatch(setPageItem(current_page - 1))
                             console.log('go to previous page') 
                             console.log('current_page',current_page)

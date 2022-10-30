@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {useHistory} from 'react-router-dom';
 import store from "../store";
-
+import { useBooksQuery } from "../services/api";
 const initialState = {
   bookItems: [],
   total: 0,
@@ -53,24 +53,8 @@ const bookSlice = createSlice({
       state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
     },
     setPageItem: (state,action) => {
-      console.log('setPage ======= > ',action, current(state))
-      
-      // state.bookItems = [] //forbiden assigning for mutability why it is not rerendering
       state.current_page = action.payload
-      state.bookItems = state.bookItems.filter(todo => todo.id !== action.payload)
-
-      // return {
-      //   ...state,
-      //   current_page: action.payload
-      // }
-
-
-      
-      // state.bookItems = state.bookItems.filter((item) => item.id !== itemId);
-      // return {
-      //   ...state,
-      //   current_page : action.payload.current_page
-      // }
+      // console.log(useBooksQuery(action.payload))
     },
     setLoggedIn: (state) => {
       state.isLoggedIn = true
@@ -83,7 +67,7 @@ const bookSlice = createSlice({
    
   },
   extraReducers: (builder) => {
-    // console.log('Delete State',getState())
+    
     builder
     .addMatcher(
       isAllOf(booksApi.endpoints.books.matchFulfilled),
@@ -91,11 +75,21 @@ const bookSlice = createSlice({
         console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
         
         //setting responsed data to store by api endpoints rtk-query listener
-        state.bookItems = Object.freeze(payload.payload.data.books.data.slice()) ;
-        state.total = payload.payload.data.books.total
-        state.per_page = payload.payload.data.books.per_page
-        state.current_page = payload.payload.data.books.current_page
-        state.last_page = payload.payload.data.books.last_page
+        // state.bookItems = [...payload.payload.data.books.data,1] ;
+        // state.total = payload.payload.data.books.total
+        // state.per_page = payload.payload.data.books.per_page
+        // state.current_page = payload.payload.data.books.current_page
+        // state.last_page = payload.payload.data.books.last_page
+
+        return {
+          ...state,
+          bookItems : payload.payload.data.books.data,
+          total : payload.payload.data.books.total,
+          per_page : payload.payload.data.books.per_page,
+          current_page : payload.payload.data.books.current_page,
+          last_page : payload.payload.data.books.last_page
+
+        }
       }
     )
     .addMatcher(
