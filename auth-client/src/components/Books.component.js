@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../resources/app.css';
 import Swal from 'sweetalert2';
-
+import { createSlice, createAsyncThunk, isAllOf, current } from "@reduxjs/toolkit";
 import Table from 'react-bootstrap/Table';
 import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
@@ -16,10 +16,15 @@ import { removeItem, setPageItem} from '../reducers/bookSlice';
 import { useDispatch, useSelector } from "react-redux";
 
 const BookList = (props) => {
+    const [bookItemsAll, setBookItemsAll] = useState([])
     const dispatch = useDispatch();
     const history = useHistory();
-    const [deleteBook, { isLoading3 }] = useDeleteBookMutation()
+    const [deleteBook, { isLoading3 }] = useDeleteBookMutation({
+        fixedCacheKey: 'shared-update-post',
+      })
     const [validationError,setValidationError] = useState({})
+    const [page, setPage] = useState(1);
+    
     const deleteProduct = async (id) => {
         const isConfirm = await Swal.fire({
             title: 'Are you sure?',
@@ -59,20 +64,13 @@ const BookList = (props) => {
         // dispatch(removeItem(response.originalArg))
         // // console.log('Get State',store.getState().books.bookItems)
 
+        
+        console.log('books from store',store.getState())
 
-
-        // dispatch(
-        //     deleteBook(id).unwrap().then(( response ) => {
-        //         Swal.fire({
-        //             icon:"success",
-        //             text: response.data.message
-        //         })
-        //     } )
-        // );
-
-        const abc = await deleteBook(id)
+        const abc = deleteBook(id)
         .unwrap()
         .then(( response ) => {
+            setBookItemsAll(bookItemsAll.filter(book => book.id !== id))
             Swal.fire({
                 icon:"success",
                 text: response.data.message
@@ -93,35 +91,22 @@ const BookList = (props) => {
         // })
          
     }
-    const [page, setPage] = useState(1);
     
     //run createApi query, set data from reducer listner, then access data into component from store
-    const { current_page } = useSelector((store) => store.books)
-    useBooksQuery(current_page, {skip: !props.loggedIn});
-    const { bookItems, total, per_page,  last_page, error, isLoading, isSuccess } = useSelector((store) => store.books);
-    var data_prop = [current_page,last_page, isSuccess, setPage, setPageItem];
-
-    
-
-    
-    /*
-    console.log("If is logged in",isLoggedIn)
-    const [books, setBooks] = React.useState([]);
+    const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(page, {skip: !props.loggedIn})
+    const { bookItems2 } = useSelector((store) => store.books);
+    // 
     React.useEffect(() => {
-        if (props.loggedIn) {
-            dispatch(getBookItems());
-            // dispatch(nextPage());
+        if (bookItems){
+            console.log('bookItems',bookItems.data.books.data)
+            setBookItemsAll(bookItems.data.books.data)
         }
-    }, []);
+      },[bookItems])
     
-    */
-
-    
-   
-    if (props.loggedIn) {
-        // console.log('geTSTATE ',store.getState().books.bookItems)
-        // console.log('experimental GetState',bookItems)
-        const bookList = bookItems.map(({ id, title, author }) => 
+    if (props.loggedIn && bookItems) {
+        let data = bookItems.data.books
+        var data_prop = [data.current_page, data.last_page, isSuccess, setPage, setPageItem];
+        const bookList =bookItemsAll.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>
                 <td>{title}</td>
@@ -133,8 +118,6 @@ const BookList = (props) => {
                 </td>
             </tr>
         );
-
-        // console.log('data props', data_prop)
         
         return (
             <div className="list-group">
@@ -154,6 +137,8 @@ const BookList = (props) => {
                         {bookList}
                     </tbody>
                 </Table>
+
+            
                 <PaginationCustom props={data_prop} ></PaginationCustom>
             </div>
         );

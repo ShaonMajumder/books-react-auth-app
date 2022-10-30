@@ -14,17 +14,18 @@ function PaginationCustom (props)  {
     
     return (    
         <Pagination>
-            {/* <Pagination.First 
+            <Pagination.First 
                 style={{display: current_page !== 1 ? 'block' : 'none' }} 
                 onClick={
                     () => {
                             if(current_page !== 1){
-                                dispatch(setPageItem(1))
+                                // dispatch(setPageItem(1))
+                                setPage(1)
                             }
                     }
                 }
                 isLoading={isSuccess}
-            /> */}
+            />
 
             
 
@@ -33,27 +34,21 @@ function PaginationCustom (props)  {
                 onClick={
                     () => { 
                         if(current_page > 1){
-                            // setPage(current_page - 1)
-                            
-                            dispatch(setPageItem(current_page - 1))
-                            console.log('go to previous page') 
-                            console.log('current_page',current_page)
-                            console.log('last_page',last_page)
+                            setPage(current_page - 1)
+                            // dispatch(setPageItem(current_page - 1))
                         }
                     }
                 }
                 isLoading={isSuccess}
             />
 
-            {/* <Pagination.Item 
+            <Pagination.Item 
                 style={{display: (current_page !== 1) ? 'block' : 'none' }} 
                 onClick={
                     () => { 
                         if(current_page !== 1){
-                            dispatch(setPageItem(1))
-                            console.log('go to first page') 
-                            console.log('current_page',current_page)
-                            console.log('last_page',last_page)
+                            // dispatch(setPageItem(1))
+                            setPage(1)
                         }
                     }
                 }
@@ -77,46 +72,39 @@ function PaginationCustom (props)  {
                 onClick={
                     () => { 
                         if(current_page !== last_page){
-                            dispatch(setPageItem(last_page))
-                            console.log('go to last page') 
-                            console.log('current_page',current_page)
-                            console.log('last_page',last_page)
+                            // dispatch(setPageItem(last_page))
+                            setPage(last_page)
                         }
                     }
                 }
                 isLoading={isSuccess}
-            >{last_page}</Pagination.Item> */}
+            >{last_page}</Pagination.Item>
 
             <Pagination.Next 
-                // style={{display: current_page < last_page ? 'block' : 'none' }} 
+                style={{display: current_page < last_page ? 'block' : 'none' }} 
                 onClick={
                     () => {
                         if(current_page < last_page){
-                            // setPage(current_page + 1)
-                            dispatch(setPageItem(current_page + 1))
-                            console.log('go to next page') 
-                            console.log('current_page',current_page)
-                            console.log('last_page',last_page)  
+                            setPage(current_page + 1)
+                            // dispatch(setPageItem(current_page + 1))
                         }
                     }
                 }
                 isLoading={isSuccess}
             />
             
-            {/* <Pagination.Last 
+            <Pagination.Last 
                 style={{display: current_page !== last_page ? 'block' : 'none' }} 
                 onClick={
                     () => {
                         if(current_page !== last_page){
-                            dispatch(setPageItem(last_page))
-                            console.log('go to last page') 
-                            console.log('current_page',current_page)
-                            console.log('last_page',last_page)
+                            // dispatch(setPageItem(last_page))
+                            setPage(last_page)
                         }
                     }
                 }
                 isLoading={isSuccess}
-            /> */}
+            />
         </Pagination>
     );
     
