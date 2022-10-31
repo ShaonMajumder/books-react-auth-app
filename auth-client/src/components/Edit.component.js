@@ -6,14 +6,17 @@ import Col from 'react-bootstrap/Col';
 import { Redirect, useParams } from 'react-router-dom'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import apiClient, { booksApi, book_create_url,get_book_url, useUpdateBookMutation } from '../services/api';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
 export default function EditUser() {
-
+  const [updateBook, { isLoading2 }] = useUpdateBookMutation()
   const { id } = useParams()
+  console.log('edit id ',id)
 
   const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
   const [description, setDescription] = useState("")
   const [amount, setAmount] = useState("")
   const [image, setImage] = useState(null)
@@ -24,10 +27,11 @@ export default function EditUser() {
   }, [])
 
   const fetchProduct = async () => {
-    await axios.get(API_URL+`/api/products/${id}`).then(({data})=>{
-      const { title, description } = data.product
+    
+    apiClient.get(`${get_book_url}/${id}`).then(({data})=>{
+      const { title, author } = data.data
       setTitle(title)
-      setDescription(description)
+      setAuthor(author)
     }).catch(({response:{data}})=>{
       Swal.fire({
         text:data.message,
@@ -50,6 +54,21 @@ export default function EditUser() {
     if(image!==null){
       formData.append('image', image)
     }
+
+    const json_data = {
+      'title' : title,
+      'author' : author
+    }
+    await updateBook(json_data).unwrap()
+    .then((payload) => {
+      console.log('success creation',payload)
+      Swal.fire({
+        icon:"success",
+        text: payload.message
+      })
+      
+    })
+    .catch((error) => console.error('rejected', error))
 
     await axios.post(API_URL+`/api/products/${id}`, formData).then(({data})=>{
       Swal.fire({
@@ -75,7 +94,7 @@ export default function EditUser() {
         <div className="col-12 col-sm-12 col-md-6">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Update Asset</h4>
+              <h4 className="card-title">Update Book</h4>
               <hr />
               <div className="form-wrapper">
                 {
@@ -102,6 +121,16 @@ export default function EditUser() {
                             <Form.Label>Title</Form.Label>
                             <Form.Control type="text" value={title} onChange={(event)=>{
                               setTitle(event.target.value)
+                            }}/>
+                        </Form.Group>
+                      </Col>  
+                  </Row>
+                  <Row> 
+                      <Col>
+                        <Form.Group controlId="Author">
+                            <Form.Label>Author</Form.Label>
+                            <Form.Control type="text" value={author} onChange={(event)=>{
+                              setAuthor(event.target.value)
                             }}/>
                         </Form.Group>
                       </Col>  

@@ -29,6 +29,19 @@ class BookController extends Controller
             )
         );
     }
+    
+
+    public function getBook(Request $request,Book $id){        
+        $this->apiSuccess();
+        $this->data = $id;
+        
+        return response()->json(
+            ...$this->apiResponseBuilder(
+                $status_code = Response::HTTP_OK,
+                $message     = 'Got book Successfully',
+            )
+        );
+    }
 
     /**
      * Adds Book

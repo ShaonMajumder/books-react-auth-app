@@ -93,6 +93,14 @@ const BookList = (props) => {
                     <Button variant="danger" 
                     onClick={()=>deleteProduct(id)}
                     >Delete</Button>
+                    <Button variant="primary" 
+                    onClick={()=>{
+                        history.push(`/books/update/${id}`)
+                    }}
+                    >Edit</Button>
+                    {/* <Link className='btn btn-primary mb-2 float-end' to={"/books/create"}>
+                    Ed Book
+                </Link> */}
                 </td>
             </tr>
         );

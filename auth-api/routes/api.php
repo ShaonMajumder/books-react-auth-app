@@ -24,8 +24,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::any('logout', [LoginController::class, "logout"]);
     Route::prefix('books')->name('books.')->group(function(){
         Route::get('/', [BookController::class, "listBooks"]);
+        Route::get('/{id}', [BookController::class, "getBook"]);
         Route::post('/add', [BookController::class, "addBook"]);
         Route::delete('/delete/{id}',  [BookController::class, "deleteBook"]);
+
     });
 });
 

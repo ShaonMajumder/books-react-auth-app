@@ -9,6 +9,7 @@ export const login_url = process.env.REACT_APP_LOGIN_URL || "api/login"
 export const logout_url = process.env.REACT_APP_LOGOUT_URL || "api/logout"
 export const csrf_token_url = process.env.REACT_APP_CSRF_TOKEN_URL || "/sanctum/csrf-cookie"
 export const book_url = process.env.REACT_APP_BOOK_URL || "/api/books"
+export const get_book_url = process.env.REACT_APP_BOOK_GET_URL || "/api/books"
 export const book_create_url = process.env.REACT_APP_BOOK_CREATE_URL || "/api/books/add"
 export const book_delete_url = process.env.REACT_APP_BOOK_DELETE_URL || "/api/books/delete"
 

@@ -70,7 +70,7 @@ const App = () => {
           <Route path='/books/create' render={props => (
             <CreateBook  />
           )} />
-          <Route path='/books/edit/:id' render={props => (
+          <Route path='/books/update/:id' render={props => (
             <EditBook  />
           )} />
         </Switch>
