@@ -13,9 +13,11 @@ import store from '../store'; //important without it listner in extra reducer do
 
 
 const BookList = (props) => {
-    // const [page, setPage] = useState(1);
+    const page = props.page;
+    const setPage = props.setPage;
+    const bookItemsAll = props.bookItems;
+    const setBookItemsAll = props.setBookItems;
     console.log(props)
-    const [bookItemsAll, setBookItemsAll] = useState([])
     const history = useHistory();
     const [deleteBook, { isLoading3 }] = useDeleteBookMutation({
         fixedCacheKey: 'shared-update-post',
@@ -74,7 +76,7 @@ const BookList = (props) => {
     }
     
     //run createApi query, set data from reducer listner, then access data into component from store
-    const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(props.page, {skip: !props.loggedIn})
+    const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(page, {skip: !props.loggedIn})
     
     
     React.useEffect(() => {
@@ -85,7 +87,7 @@ const BookList = (props) => {
     
     if (props.loggedIn && bookItems) {
         let data = bookItems.data.books
-        var data_prop = [data.current_page, data.last_page, isSuccess, props.setPage];
+        var data_prop = [data.current_page, data.last_page, isSuccess, setPage];
         const bookList =bookItemsAll.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>

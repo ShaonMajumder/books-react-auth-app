@@ -7,6 +7,7 @@ import { Redirect, useParams } from 'react-router-dom'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import apiClient, { booksApi, book_create_url,get_book_url, useUpdateBookMutation } from '../services/api';
+import store from "../store";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
@@ -14,7 +15,10 @@ export default function EditBook(props) {
   const [updateBook, { isLoading2 }] = useUpdateBookMutation()
   const { id } = useParams()
   const history = props.history()
-  console.log('edit id ',useParams(),props.history())
+  const bookItemsAll = props.bookItems
+  const setBookItemsAll = props.setBookItems
+  // console.log('edit id ',useParams(),props.history())
+  // console.log('success edit',store.getState().books.bookItems)
 
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -63,16 +67,24 @@ export default function EditBook(props) {
     }
     updateBook(json_data).unwrap()
     .then((payload) => {
-      console.log('success creation',payload)
+      
       Swal.fire({
         icon:"success",
         text: payload.message
       })
       
-     
-      // return <Redirect to='/' />
+      let booksAll = store.getState().books.bookItems
+      booksAll = booksAll.filter((item) => {
+        if( item.id === id){
+          console.log('pointer data',item)
+          return payload.data
+        }else{
+          return item
+        }
+      })
+      console.log('Edited data',booksAll)
+      setBookItemsAll(  booksAll  )
       history.push('/')
-      
 
     })
     .catch((response)=>{

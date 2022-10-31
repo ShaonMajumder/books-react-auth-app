@@ -13,6 +13,7 @@ import { setLoggedIn, setLoggedOut} from './reducers/bookSlice';
 
 const App = () => {
   const [page, setPage] = useState(1);
+  const [bookItems, setBookItems] = useState([])
   const dispatch = useDispatch();
   
   // const counter = useSelector((state) => state.counter)
@@ -65,7 +66,7 @@ const App = () => {
       <div className="container mt-5 pt-5">
         <Switch>
           <Route path='/' exact render={props => (
-            <BookList {...props} loggedIn={loggedIn} history={useHistory} page={page} setPage={setPage}  />
+            <BookList {...props} loggedIn={loggedIn} history={useHistory} page={page} setPage={setPage} bookItems={bookItems} setBookItems={setBookItems}  />
           )} />
           <Route path='/login' render={props => (
             <Login {...props} login={login} />
@@ -74,7 +75,7 @@ const App = () => {
             <CreateBook history={useHistory} page={page} setPage={setPage}  />
           )} />
           <Route path='/books/update/:id' render={props => (
-            <EditBook {...props}  history={useHistory} page={page} setPage={setPage} />
+            <EditBook {...props}  history={useHistory} page={page} setPage={setPage} bookItems={bookItems} setBookItems={setBookItems} />
           )} />
         </Switch>
       </div>

@@ -99,6 +99,23 @@ const bookSlice = createSlice({
       }
     )
     .addMatcher(
+      isAllOf(booksApi.endpoints.updateBook.matchFulfilled),
+      (state, payload ) => {
+        const { bookItems, total } = current(state)
+        // // return {
+        // //   bookItems: bookItems.push(),
+        // //   total: total + 1
+        // // }
+        
+        
+        // return {
+        //   ...state,
+        //   bookItems: bookItems.push(payload.payload.data)
+        // }
+        
+      }
+    )
+    .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
         let bookId = payload.payload.originalArg
