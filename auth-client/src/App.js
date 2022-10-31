@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, NavLink, useHistory } from 'react-router-dom';
 import BookList from './components/Books.component';
 import CreateBook from './components/Create.component';
 import EditBook from './components/Edit.component';
@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoggedIn, setLoggedOut} from './reducers/bookSlice';
 
 const App = () => {
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
+  
   // const counter = useSelector((state) => state.counter)
   const [loggedIn, setLoggedIn2] = React.useState( sessionStorage.getItem('loggedIn') === 'true' || false );
   
@@ -20,6 +22,7 @@ const App = () => {
     setLoggedIn2(true);
     dispatch(setLoggedIn())
   };
+
 
   const logout = () => {
     apiClient.post(logout_url,[]).then(response => {
@@ -62,16 +65,16 @@ const App = () => {
       <div className="container mt-5 pt-5">
         <Switch>
           <Route path='/' exact render={props => (
-            <BookList {...props} loggedIn={loggedIn} />
+            <BookList {...props} loggedIn={loggedIn} history={useHistory} page={page} setPage={setPage}  />
           )} />
           <Route path='/login' render={props => (
             <Login {...props} login={login} />
           )} />
           <Route path='/books/create' render={props => (
-            <CreateBook  />
+            <CreateBook history={useHistory} page={page} setPage={setPage}  />
           )} />
           <Route path='/books/update/:id' render={props => (
-            <EditBook  />
+            <EditBook {...props}  history={useHistory} page={page} setPage={setPage} />
           )} />
         </Switch>
       </div>

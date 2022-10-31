@@ -52,22 +52,7 @@ export const booksApi = createApi({
                 method : 'PUT',
                 body : rest
             }),
-            transformResponse: (response, meta, arg) => {
-                console.log('tra',arg)
-                return response
-            },
-            async onQueryStarted(
-                arg,
-                { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-            ) {
-                
-                // console.log('getState onQueryStarted',getState())
-                console.log('update => onQueryStarted, arg',arg)
-                queryFulfilled.then(()=>{
-                // console.log('deleteBook => onQueryStarted getState()',requestId,getState())
-                
-                })
-            },
+            transformResponse: (response, meta, arg) => response,
         }),
         deleteBook: builder.mutation({
             query: (id) => ({

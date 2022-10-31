@@ -10,10 +10,11 @@ import apiClient, { booksApi, book_create_url,get_book_url, useUpdateBookMutatio
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
-export default function EditUser() {
+export default function EditBook(props) {
   const [updateBook, { isLoading2 }] = useUpdateBookMutation()
   const { id } = useParams()
-  console.log('edit id ',id)
+  const history = props.history()
+  console.log('edit id ',useParams(),props.history())
 
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -60,7 +61,7 @@ export default function EditUser() {
       'title' : title,
       'author' : author,
     }
-    await updateBook(json_data).unwrap()
+    updateBook(json_data).unwrap()
     .then((payload) => {
       console.log('success creation',payload)
       Swal.fire({
@@ -69,7 +70,9 @@ export default function EditUser() {
       })
       
      
-      return <Redirect to='/' />
+      // return <Redirect to='/' />
+      history.push('/')
+      
 
     })
     .catch((response)=>{

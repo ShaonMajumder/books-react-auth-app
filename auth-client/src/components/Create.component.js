@@ -8,14 +8,16 @@ import Swal from 'sweetalert2';
 import { Redirect, useHistory } from 'react-router-dom';
 import apiClient, { booksApi, book_create_url, useAddBookMutation } from '../services/api';
 import { useDispatch } from "react-redux";
+import store from "../store";
+import { useSelector } from "react-redux";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
-export default function CreateBook() {
+export default function CreateBook(props) {
   const [addBook, { isLoading2 }] = useAddBookMutation()
-  
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const page = props.page;
+  const setPage = props.setPage;
+  const history = props.history()
 
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -43,14 +45,6 @@ export default function CreateBook() {
       'title' : title,
       'author' : author
     }
-    // const [createNotification, {data, loading, error}] = useAddBookMutation(formData);
-    // dispatch(booksApi.endpoints.addBook.initiate(json_data).fulfilled((data) => {
-    //   Swal.fire({
-    //     icon:"success",
-    //     text:data.message
-    //   })
-    //   history.push('/')
-    // }), { track: false });
 
     await addBook(json_data).unwrap()
     .then((payload) => {
@@ -59,28 +53,12 @@ export default function CreateBook() {
         icon:"success",
         text: payload.message
       })
+      
+      let last_page = store.getState().books.last_page
+      setPage(last_page)
       history.push('/')
     })
     .catch((error) => console.error('rejected', error))
-
-    
-
-    // await apiClient.post(book_create_url,formData).then(({data})=>{
-    //   Swal.fire({
-    //     icon:"success",
-    //     text:data.message
-    //   })
-    //   history.push('/')
-    // }).catch(({response})=>{
-    //   if(response.status===422){
-    //     setValidationError(response.data.errors)
-    //   }else{
-    //     Swal.fire({
-    //       text:response.data.message,
-    //       icon:"error"
-    //     })
-    //   }
-    // })
   }
 
   return (
