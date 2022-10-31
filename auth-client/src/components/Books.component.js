@@ -24,8 +24,10 @@ const BookList = (props) => {
       })
     const [validationError,setValidationError] = useState({})
     const [page, setPage] = useState(1);
-    
-    const deleteProduct = async (id) => {
+    const { bookItems : bookItems2 } = useSelector((store) => store.books);
+
+    const deleteProduct = async (state,id) => {
+        console.log(state,id)
         const isConfirm = await Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -42,51 +44,39 @@ const BookList = (props) => {
             return;
         }
 
-        // await apiClient.post(`${book_delete_url}/${id}`,[]).then(({data})=>{
-        //   Swal.fire({
-        //     icon:"success",
-        //     text:data.message
-        //   })
-        
-        //   history.push('/')
-        
-        // }).catch(({response})=>{
-        //   if(response.status===422){
-        //     setValidationError(response.data.errors)
-        //   }else{
-        //     Swal.fire({
-        //       text:response.data.message,
-        //       icon:"error"
-        //     })
-        //   }
-        // })
-        
         // dispatch(removeItem(response.originalArg))
         // // console.log('Get State',store.getState().books.bookItems)
 
-        
-        console.log('books from store',store.getState())
+        // doesnt work realtime
+        // console.log('books from store',store.getState())
+        if(bookItems2){
+            console.log('books from store',bookItems2)
+        }
 
-        const abc = deleteBook(id)
-        .unwrap()
-        .then(( response ) => {
-            setBookItemsAll(bookItemsAll.filter(book => book.id !== id))
-            Swal.fire({
-                icon:"success",
-                text: response.data.message
+        deleteBook(id)
+            .unwrap()
+            .then(( response ) => {
+                
+                setBookItemsAll(bookItemsAll.filter(book => book.id !== id))
+                Swal.fire({
+                    icon:"success",
+                    text: response.data.message
+                })
+                history.push('/')
             })
-            history.push('/')
-        })
-        .catch((error) => console.error('rejected', error))
+            .catch((error) => {
+                let errors = Object.entries(error.data.errors).map(([key, value])=>(
+                    value
+                ))
+                Swal.fire({
+                    text: errors,
+                    icon:"error"
+                })
+            })
   
         // }).catch(({response})=>{
         //   if(response.status===422){
         //     setValidationError(response.data.errors)
-        //   }else{
-        //     Swal.fire({
-        //       text:response.data.message,
-        //       icon:"error"
-        //     })
         //   }
         // })
          
@@ -94,16 +84,19 @@ const BookList = (props) => {
     
     //run createApi query, set data from reducer listner, then access data into component from store
     const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(page, {skip: !props.loggedIn})
-    const { bookItems2 } = useSelector((store) => store.books);
-    // 
+    
+    
     React.useEffect(() => {
         if (bookItems){
-            console.log('bookItems',bookItems.data.books.data)
             setBookItemsAll(bookItems.data.books.data)
         }
       },[bookItems])
     
     if (props.loggedIn && bookItems) {
+        if(bookItems2){
+
+            console.log('data from useSelector store',bookItems2)
+        }
         let data = bookItems.data.books
         var data_prop = [data.current_page, data.last_page, isSuccess, setPage, setPageItem];
         const bookList =bookItemsAll.map(({ id, title, author }) => 

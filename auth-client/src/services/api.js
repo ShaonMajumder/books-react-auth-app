@@ -33,7 +33,7 @@ export const booksApi = createApi({
     endpoints: (builder) => ({
         books: builder.query({
             query: (page = 1) => {
-                console.log("OK");
+                // console.log("OK");
                 return `/books?page=${page}`;
             },
         }),
@@ -59,7 +59,7 @@ export const booksApi = createApi({
                 method: 'DELETE'
             }),
             transformResponse: (response, meta, arg) => {
-                console.log('deleteBook => transformResponse')
+                // console.log('deleteBook => transformResponse')
                 return {
                     originalArg: arg,
                     data: response,
@@ -71,9 +71,9 @@ export const booksApi = createApi({
             ) {
                 
                 // console.log('getState onQueryStarted',getState())
-                console.log('deleteBook => onQueryStarted, arg',arg)
+                // console.log('deleteBook => onQueryStarted, arg',arg)
                 queryFulfilled.then(()=>{
-                console.log('deleteBook => onQueryStarted getState()',requestId,getState())
+                // console.log('deleteBook => onQueryStarted getState()',requestId,getState())
                 
                 })
             },

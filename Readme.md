@@ -209,7 +209,14 @@ headers: {
     }
 ```
 
-
+### accessing store from slice
+```javascript
+import { current } from "@reduxjs/toolkit";
+(state, payload ) => {
+    const { bookItems } = current(state)
+    console.log('Endpoint Hook listeners => state',current(state)['bookItems'],bookItems)
+}
+```
 
 ### Error Handling
 - if ERR_OSSL_EVP_UNSUPPORTED Error :

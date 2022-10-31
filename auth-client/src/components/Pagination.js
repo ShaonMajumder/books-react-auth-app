@@ -1,10 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from 'react-bootstrap/Pagination';
-import Button from 'react-bootstrap/Button';
 import '../resources/app.css';
 import { useDispatch } from 'react-redux';
-import { useBooksQuery } from '../services/api';
 
 function PaginationCustom (props)  {
     // console.log('fetch props',props.props)

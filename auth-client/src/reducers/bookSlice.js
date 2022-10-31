@@ -92,15 +92,13 @@ const bookSlice = createSlice({
           per_page : payload.payload.data.books.per_page,
           current_page : payload.payload.data.books.current_page,
           last_page : payload.payload.data.books.last_page
-
         }
       }
     )
     .addMatcher(
       isAllOf(booksApi.endpoints.addBook.matchFulfilled),
       (state, payload ) => {
-        console.log('Create reducer m',state)
-        console.log('Create from extra reducer',state.bookItems)
+
       }
     )
     .addMatcher(
@@ -111,7 +109,7 @@ const bookSlice = createSlice({
         const { bookItems } = current(state)
         //current(state)['bookItems']
         
-        console.log('Endpoint Hook listeners => state',current(state)['bookItems'])
+        
         state.bookItems = bookItems.filter(book => book.id !== bookId)
         
         // state.total = state.total - 1
@@ -122,18 +120,6 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchRejected),
       (state, payload ) => {
-        console.log(state,payload)
-        let data = payload.payload.data
-        console.log(payload.payload.data.errors)
-        
-        let errors = Object.entries(payload.payload.data.errors).map(([key, value])=>(
-          value
-        ))
-
-        Swal.fire({
-            text: errors,
-            icon:"error"
-        })
         
       }
     )
