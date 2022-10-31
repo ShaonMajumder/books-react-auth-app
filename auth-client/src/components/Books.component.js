@@ -2,32 +2,27 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../resources/app.css';
 import Swal from 'sweetalert2';
-import { createSlice, createAsyncThunk, isAllOf, current } from "@reduxjs/toolkit";
 import Table from 'react-bootstrap/Table';
 import PaginationCustom from './Pagination';
 import { useBooksQuery } from '../services/api';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import { useDeleteBookMutation} from '../services/api';
-import { Redirect, useHistory } from 'react-router-dom';
-import store from '../store'
-import { removeItem, setPageItem} from '../reducers/bookSlice';
-// import { getBookItems } from '../reducers/bookSlice';
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useHistory } from 'react-router-dom';
+import store from '../store' //important without it listner in extra reducer doesn't work
+
 
 const BookList = (props) => {
     const [bookItemsAll, setBookItemsAll] = useState([])
-    const dispatch = useDispatch();
     const history = useHistory();
     const [deleteBook, { isLoading3 }] = useDeleteBookMutation({
         fixedCacheKey: 'shared-update-post',
       })
     const [validationError,setValidationError] = useState({})
     const [page, setPage] = useState(1);
-    const { bookItems : bookItems2 } = useSelector(store => store.books, shallowEqual);
     
 
-    const deleteProduct = async (id,bookItems2) => {
+    const deleteProduct = async (id) => {
         
         const isConfirm = await Swal.fire({
             title: 'Are you sure?',
@@ -45,16 +40,7 @@ const BookList = (props) => {
             return;
         }
 
-        // dispatch(removeItem(response.originalArg))
-        // // console.log('Get State',store.getState().books.bookItems)
 
-        // doesnt work realtime
-        // console.log('books from store',store.getState())
-        if(bookItems2){
-            console.log('books from useSelector Passed',bookItems2)
-        }
-        console.log('books from store.getState()',store.getState())
-        console.log('books from store.getState()',store.getState())
 
         deleteBook(id)
             .unwrap()
@@ -96,12 +82,8 @@ const BookList = (props) => {
       },[bookItems])
     
     if (props.loggedIn && bookItems) {
-        if(bookItems2){
-
-            // console.log('data from useSelector store',bookItems2)
-        }
         let data = bookItems.data.books
-        var data_prop = [data.current_page, data.last_page, isSuccess, setPage, setPageItem];
+        var data_prop = [data.current_page, data.last_page, isSuccess, setPage];
         const bookList =bookItemsAll.map(({ id, title, author }) => 
             <tr key={id}>
                 <td>{id}</td>
@@ -109,7 +91,7 @@ const BookList = (props) => {
                 <td>{author}</td>
                 <td>
                     <Button variant="danger" 
-                    onClick={()=>deleteProduct(id,bookItems2)}
+                    onClick={()=>deleteProduct(id)}
                     >Delete</Button>
                 </td>
             </tr>
