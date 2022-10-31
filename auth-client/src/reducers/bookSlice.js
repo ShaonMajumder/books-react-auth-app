@@ -91,14 +91,18 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.addBook.matchFulfilled),
       (state, payload ) => {
-
+        const { bookItems, total } = current(state)
+        // return {
+        //   bookItems: bookItems.push(),
+        //   total: total + 1
+        // }
       }
     )
     .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
         let bookId = payload.payload.originalArg
-        console.log('fullfilled',payload.payload.data)
+        console.log('Delete Listner',payload.payload.data)
         const { bookItems, total } = current(state)
         return {
           bookItems: bookItems.filter(book => book.id !== bookId),

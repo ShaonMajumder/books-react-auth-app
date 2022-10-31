@@ -299,6 +299,10 @@ return {
 
     // Doesnt work
 ```
+
+### No reducer provided for key "books"
+import store above component file - import store from '../store'
+
 ### Error Handling
 - if ERR_OSSL_EVP_UNSUPPORTED Error :
 Go to package.json and change
