@@ -77,22 +77,14 @@ const bookSlice = createSlice({
       isAllOf(booksApi.endpoints.books.matchFulfilled),
       (state, payload ) => {
         console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
-        
         //setting responsed data to store by api endpoints rtk-query listener
-        // state.bookItems = [...payload.payload.data.books.data,1] ;
-        // state.total = payload.payload.data.books.total
-        // state.per_page = payload.payload.data.books.per_page
-        // state.current_page = payload.payload.data.books.current_page
-        // state.last_page = payload.payload.data.books.last_page
-
-        return {
-          ...state,
+        this.setState({
           bookItems : payload.payload.data.books.data,
           total : payload.payload.data.books.total,
           per_page : payload.payload.data.books.per_page,
           current_page : payload.payload.data.books.current_page,
           last_page : payload.payload.data.books.last_page
-        }
+        })
       }
     )
     .addMatcher(
@@ -110,7 +102,10 @@ const bookSlice = createSlice({
         //current(state)['bookItems']
         
         
-        state.bookItems = bookItems.filter(book => book.id !== bookId)
+        
+        this.setState({
+          bookItems: bookItems.filter(book => book.id !== bookId)
+        })
         
         // state.total = state.total - 1
         // after removing

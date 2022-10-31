@@ -209,15 +209,73 @@ headers: {
     }
 ```
 
-### accessing store from slice
+### accessing store from reducer inside slice
 ```javascript
 import { current } from "@reduxjs/toolkit";
 (state, payload ) => {
     const { bookItems } = current(state)
+    // acessing in two ways
     console.log('Endpoint Hook listeners => state',current(state)['bookItems'],bookItems)
 }
 ```
+### accessing store 2
+```javascript
+import store from '../store'
+console.log('Get State',store.getState().books.bookItems)
+```
+### accessing store 3
+```javascript
+import { useSelector } from "react-redux";
+const { bookItems : bookItems2 } = useSelector((store) => store.books);
+```
+### Setting Store in Reducer
+#### Method 1
+```javascript
+return {
+    ...state,
+    bookItems : payload.payload.data.books.data,
+    total : payload.payload.data.books.total,
+    per_page : payload.payload.data.books.per_page,
+    current_page : payload.payload.data.books.current_page,
+    last_page : payload.payload.data.books.last_page
+}
+```
 
+#### Method 2
+```javascript
+    //setting responsed data to store by api endpoints rtk-query listener
+    state.bookItems = [...payload.payload.data.books.data,1] ;
+    state.total = payload.payload.data.books.total
+    state.per_page = payload.payload.data.books.per_page
+    state.current_page = payload.payload.data.books.current_page
+    state.last_page = payload.payload.data.books.last_page
+```
+
+#### Method 3 - safest way
+```javascript
+    this.setState({
+        bookItems : payload.payload.data.books.data,
+        total : payload.payload.data.books.total,
+        per_page : payload.payload.data.books.per_page,
+        current_page : payload.payload.data.books.current_page,
+        last_page : payload.payload.data.books.last_page
+    })
+```
+### Immutability
+```javascript
+state.bookItems = bookItems.filter(book => book.id !== bookId) // immutable also, makes a copy as data is different
+```
+```javascript
+return {
+    ...state,
+    bookItems : payload.payload.data.books.data
+}
+```
+```javascript
+ this.setState({
+    bookItems : payload.payload.data.books.data
+})
+```
 ### Error Handling
 - if ERR_OSSL_EVP_UNSUPPORTED Error :
 Go to package.json and change
@@ -281,6 +339,8 @@ https://hooks.reactivers.com/use-auth
 - How to Pass Data between React Components - https://www.pluralsight.com/guides/how-to-pass-data-between-react-components
 - extra reducers - https://redux-toolkit.js.org/rtk-query/usage/examples#using-extrareducers
 - handling events - https://reactjs.org/docs/handling-events.html
+- React Prefers Immutability - https://daveceddia.com/react-redux-immutability-guide/
+- Why Not To Modify React State Directly - https://daveceddia.com/why-not-modify-react-state-directly/
 
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
