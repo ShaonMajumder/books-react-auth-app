@@ -276,6 +276,29 @@ return {
     bookItems : payload.payload.data.books.data
 })
 ```
+
+### bookSlice.js:81 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'setState')
+```javascript
+  extraReducers: (builder) => {
+    
+    builder
+    .addMatcher(
+      isAllOf(booksApi.endpoints.books.matchFulfilled),
+      (state, payload ) => {
+        console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
+        //setting responsed data to store by api endpoints rtk-query listener
+        this.setState({
+          bookItems : payload.payload.data.books.data,
+          total : payload.payload.data.books.total,
+          per_page : payload.payload.data.books.per_page,
+          current_page : payload.payload.data.books.current_page,
+          last_page : payload.payload.data.books.last_page
+        })
+      }
+    )
+
+    // Doesnt work
+```
 ### Error Handling
 - if ERR_OSSL_EVP_UNSUPPORTED Error :
 Go to package.json and change
@@ -341,7 +364,10 @@ https://hooks.reactivers.com/use-auth
 - handling events - https://reactjs.org/docs/handling-events.html
 - React Prefers Immutability - https://daveceddia.com/react-redux-immutability-guide/
 - Why Not To Modify React State Directly - https://daveceddia.com/why-not-modify-react-state-directly/
-
+- shallowEqual
+    - https://stackoverflow.com/questions/58212159/strict-equality-versus-shallow-equality-checks-in-react-redux
+    - https://react-redux.js.org/api/hooks
+    
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
     - React-bootstrap Pagination - https://react-bootstrap.github.io/components/pagination/

@@ -98,7 +98,7 @@ const BookList = (props) => {
     if (props.loggedIn && bookItems) {
         if(bookItems2){
 
-            console.log('data from useSelector store',bookItems2)
+            // console.log('data from useSelector store',bookItems2)
         }
         let data = bookItems.data.books
         var data_prop = [data.current_page, data.last_page, isSuccess, setPage, setPageItem];

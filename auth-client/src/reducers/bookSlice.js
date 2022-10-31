@@ -78,13 +78,14 @@ const bookSlice = createSlice({
       (state, payload ) => {
         console.log('createApi -> extraReducers -> Books Index Listener, state and payload',state,payload)
         //setting responsed data to store by api endpoints rtk-query listener
-        this.setState({
+        return {
+          ...state,
           bookItems : payload.payload.data.books.data,
           total : payload.payload.data.books.total,
           per_page : payload.payload.data.books.per_page,
           current_page : payload.payload.data.books.current_page,
           last_page : payload.payload.data.books.last_page
-        })
+        }
       }
     )
     .addMatcher(
