@@ -92,11 +92,40 @@ class BookController extends Controller
     }
 
     /**
+     * Update Book
+     */
+    public function updateBook(Request $request, Book $id){
+        try{
+            $id->title = $request->title;
+            $id->author = $request->author;
+            $id->save();
+            $this->apiSuccess();
+            $this->data = $id;
+            return response()->json(
+                ...$this->apiResponseBuilder(
+                    $status_code = Response::HTTP_OK,
+                    $message = 'Books updated successfully !'
+                )
+            );
+            
+        }catch(Exception $e){
+            $this->data = $this->getExceptionError($e); //->first();
+            return response()->json(
+                ...$this->apiResponseBuilder(
+                    $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
+                    $message = 'Book is not deleted !'
+                )
+            );
+        }
+    }
+
+    /**
      * Adds Book
      */
     public function deleteBook(Book $id){
         try{
             $id->delete();
+            $this->apiSuccess();
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_OK,

@@ -56,8 +56,9 @@ export default function EditUser() {
     }
 
     const json_data = {
+      'id' : id,
       'title' : title,
-      'author' : author
+      'author' : author,
     }
     await updateBook(json_data).unwrap()
     .then((payload) => {
@@ -67,16 +68,12 @@ export default function EditUser() {
         text: payload.message
       })
       
-    })
-    .catch((error) => console.error('rejected', error))
-
-    await axios.post(API_URL+`/api/products/${id}`, formData).then(({data})=>{
-      Swal.fire({
-        icon:"success",
-        text:data.message
-      })
+     
       return <Redirect to='/' />
-    }).catch(({response})=>{
+
+    })
+    .catch((response)=>{
+      console.log('rejected', response)
       if(response.status===422){
         setValidationError(response.data.errors)
       }else{
