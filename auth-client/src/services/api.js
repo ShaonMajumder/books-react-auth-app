@@ -81,10 +81,7 @@ export const booksApi = createApi({
             //     { type: 'Book', id: 'LIST' },
             //   ],
             //   invalidatesTags: [{ type: 'Book', id: 'LIST' },10],
-            invalidatesTags: [
-                
-                { type: 'Book', id: 10},
-              ],
+            invalidatesTags: ['Book'], // after creation invalidatesTags, refetch to first page,try sending to last 
         }),
         updateBook: builder.mutation({
             query: (rest ) => ({
