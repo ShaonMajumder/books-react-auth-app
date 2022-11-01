@@ -299,6 +299,10 @@ return {
 
     // Doesnt work
 ```
+### Refetching in Redux
+- https://stackoverflow.com/questions/72877343/accessing-rtk-query-data-state-across-multiple-components <br>
+If you call the same useQuery hook with the same arguments in another component, those two will share the cache entry and return exactly the same data - it will not trigger another request to the server.
+
 
 ### No reducer provided for key "books"
 import store above component file - import store from '../store'
@@ -364,14 +368,14 @@ https://hooks.reactivers.com/use-auth
 - display none react - https://stackoverflow.com/questions/37728951/how-to-css-displaynone-within-conditional-with-react-jsx
 - acess hooks - https://egghead.io/lessons/react-access-state-with-the-redux-useselector-hook
 - How to Pass Data between React Components - https://www.pluralsight.com/guides/how-to-pass-data-between-react-components
-- extra reducers - https://redux-toolkit.js.org/rtk-query/usage/examples#using-extrareducers
 - handling events - https://reactjs.org/docs/handling-events.html
-- React Prefers Immutability - https://daveceddia.com/react-redux-immutability-guide/
-- Why Not To Modify React State Directly - https://daveceddia.com/why-not-modify-react-state-directly/
-- shallowEqual
+- RTK extra reducers - https://redux-toolkit.js.org/rtk-query/usage/examples#using-extrareducers
+- RTK React Prefers Immutability - https://daveceddia.com/react-redux-immutability-guide/
+- RTK Why Not To Modify React State Directly - https://daveceddia.com/why-not-modify-react-state-directly/
+- RTK shallowEqual
     - https://stackoverflow.com/questions/58212159/strict-equality-versus-shallow-equality-checks-in-react-redux
     - https://react-redux.js.org/api/hooks
-    
+- RTK Force Refetching with hooks useQuerySubscription - https://redux-toolkit.js.org/rtk-query/api/created-api/hooks#usequerysubscription    
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
     - React-bootstrap Pagination - https://react-bootstrap.github.io/components/pagination/
