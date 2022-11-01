@@ -55,7 +55,7 @@ export default function CreateBook(props) {
         text: payload.message
       })
       
-      refetch()
+      // refetch()
       let last_page = store.getState().books.last_page
       props.setPage(last_page)
       

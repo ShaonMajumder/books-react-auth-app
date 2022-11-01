@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react' //test code
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import Cookies from 'js-cookie';
 import { useDispatch } from "react-redux";
 
@@ -13,6 +13,15 @@ export const get_book_url = process.env.REACT_APP_BOOK_GET_URL || "/api/books"
 export const book_create_url = process.env.REACT_APP_BOOK_CREATE_URL || "/api/books/add"
 export const book_delete_url = process.env.REACT_APP_BOOK_DELETE_URL || "/api/books/delete"
 
+function providesList(resultsWithIds, tagType) {
+    return resultsWithIds
+      ? [
+          { type: tagType, id: 'LIST' },
+          ...resultsWithIds.data.books.data.map(({ id }) => ({ type: tagType, id })),
+        ]
+      : [{ type: tagType, id: 'LIST' }]
+}
+
 // Define a service using a base URL and expected endpoints
 export const booksApi = createApi({
     reducerPath: "booksApi",
@@ -25,18 +34,39 @@ export const booksApi = createApi({
             headers.set('Content-Type', 'application/json')
             headers.set('Accept', 'application/json')
             headers.set('Access-Control-Allow-Credentials', 'true')
+
+            // test result to turn on providedTags caching
+            headers.set('Cache-Control', 'no-cache');
+            headers.set('Pragma', 'no-cache');
+            headers.set('Expires', '0');
+            // test result to turn on providedTags caching
+            
             if (isLoggedIn) {
                 headers.set('Authorization', `Bearer ${Cookies.get('access_token')}`)
             }
             return headers
         }
     }),
+    tagTypes: ['Book', 'User'],
     endpoints: (builder) => ({
         books: builder.query({
             query: (page = 1) => {
                 // console.log("OK");
                 return `/books?page=${page}`;
             },
+            providesTags: (result) => providesList(result, 'Book'),
+            // providesTags: ['Book'],
+            // providesTags: (result, error, page) => 
+            //     result
+            //     ? [
+            //         // Provides a tag for each post in the current page,
+            //         // as well as the 'PARTIAL-LIST' tag.
+            //         ...result.data.books.data.map(({ id }) => ({ type: 'Book', id })),
+            //         { type: 'Book', id: 'PARTIAL-LIST' },
+            //         ]
+            //     : [{ type: 'Book', id: 'PARTIAL-LIST' }],
+
+
         }),
         addBook: builder.mutation({
             query: (book) => ({
@@ -45,6 +75,7 @@ export const booksApi = createApi({
                 body: book
             }),
             transformResponse: (response, meta, arg) => response,
+            invalidatesTags: ['Book'],
         }),
         updateBook: builder.mutation({
             query: (rest ) => ({
@@ -66,6 +97,11 @@ export const booksApi = createApi({
                 url : `books/delete/${id}`,
                 method: 'DELETE'
             }),
+            invalidatesTags: (result, error, id) => [
+                { type: 'Book', id },
+                { type: 'Book', id: 'PARTIAL-LIST' },
+              ],
+        
             transformResponse: (response, meta, arg) => {
                 // console.log('deleteBook => transformResponse')
                 return {

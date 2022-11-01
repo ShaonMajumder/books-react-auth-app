@@ -376,6 +376,9 @@ https://hooks.reactivers.com/use-auth
     - https://stackoverflow.com/questions/58212159/strict-equality-versus-shallow-equality-checks-in-react-redux
     - https://react-redux.js.org/api/hooks
 - RTK Force Refetching with hooks useQuerySubscription - https://redux-toolkit.js.org/rtk-query/api/created-api/hooks#usequerysubscription    
+- RTK force a refetch, .initiate(), Observing caching behavior, Avoiding unnecessary requests, Selecting data from a query result,  - https://redux-toolkit.js.org/rtk-query/usage/queries
+- RTK providedTags does not work on createApi - https://stackoverflow.com/questions/72175487/rtk-query-always-returns-cached-data-invalidatestags-not-doing-anything
+
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
     - React-bootstrap Pagination - https://react-bootstrap.github.io/components/pagination/
@@ -393,6 +396,13 @@ https://hooks.reactivers.com/use-auth
     * Redux
 - Laravel API returns a view 404 error instead of JSON error - https://stackoverflow.com/questions/56401115/laravel-api-returns-a-view-404-error-instead-of-json-error
 Next To Learn
+    - RTK Fetching data Store - https://blog.openreplay.com/fetching-data-in-redux-using-rtk-query/
+    - https://redux.js.org/tutorials/essentials/part-8-rtk-query-advanced#selecting-values-from-results
+    - https://redux-toolkit.js.org/rtk-query/usage/prefetching
+    - https://redux-toolkit.js.org/rtk-query/usage/automated-refetching
+    - https://redux-toolkit.js.org/rtk-query/api/created-api/hooks#uselazyquery
+    - https://redux.js.org/tutorials/essentials/part-8-rtk-query-advanced#selecting-values-from-results
+    
     - Higher Order Component
     - placing pagination buttons
     - https://stackoverflow.com/questions/68612556/how-to-store-the-result-of-query-from-createapi-in-a-slice

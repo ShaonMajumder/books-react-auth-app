@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import store from '../store'; //important without it listner in extra reducer doesn't work
 
 const BookList = (props) => {
+    console.log('props.loggedIn ',props.loggedIn )
     const page = props.page;
     const setPage = props.setPage;
     const bookItemsAll = props.bookItems;
@@ -49,7 +50,7 @@ const BookList = (props) => {
             .unwrap()
             .then(( response ) => {
                 
-                setBookItemsAll(bookItemsAll.filter(book => book.id !== id))
+                // setBookItemsAll(bookItemsAll.filter(book => book.id !== id))
                 Swal.fire({
                     icon:"success",
                     text: response.data.message
@@ -76,7 +77,7 @@ const BookList = (props) => {
     
     //run createApi query, set data from reducer listner, then access data into component from store
     const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(page, {skip: !props.loggedIn})
-    
+    console.log(' index',bookItems)
     
     React.useEffect(() => {
         if (bookItems){
