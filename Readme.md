@@ -379,7 +379,7 @@ https://hooks.reactivers.com/use-auth
 - RTK force a refetch, .initiate(), Observing caching behavior, Avoiding unnecessary requests, Selecting data from a query result,  - https://redux-toolkit.js.org/rtk-query/usage/queries
 - RTK providedTags does not work on createApi - https://stackoverflow.com/questions/72175487/rtk-query-always-returns-cached-data-invalidatestags-not-doing-anything
 - Delete will auto refetch useQuery with Tags invalidation, data no manual manipulation needed -https://redux-toolkit.js.org/rtk-query/usage/pagination#automated-re-fetching-of-paginated-queries
-
+- On Update refetch useQuery,  with Tags invalidation, data no manual manipulation needed - https://redux-toolkit.js.org/rtk-query/usage/automated-refetching
 - React-Bootstrap
     - React-bootstrap Table - https://react-bootstrap.github.io/components/table/
     - React-bootstrap Pagination - https://react-bootstrap.github.io/components/pagination/
