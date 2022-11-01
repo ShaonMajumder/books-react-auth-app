@@ -14,9 +14,10 @@ import { useSelector } from "react-redux";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
 export default function CreateBook(props) {
+  const { refetch } = booksApi.endpoints.books.useQuerySubscription(props.page)
   const [addBook, { isLoading2 }] = useAddBookMutation()
-  const page = props.page;
-  const setPage = props.setPage;
+  // const page = props.page;
+  // const setPage = props.setPage;
   const history = props.history()
 
   const [title, setTitle] = useState("")
@@ -54,8 +55,10 @@ export default function CreateBook(props) {
         text: payload.message
       })
       
+      refetch()
       let last_page = store.getState().books.last_page
-      setPage(last_page)
+      props.setPage(last_page)
+      
       history.push('/')
     })
     .catch((error) => console.error('rejected', error))
