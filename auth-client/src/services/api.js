@@ -52,7 +52,14 @@ export const booksApi = createApi({
                 method : 'PUT',
                 body : rest
             }),
-            transformResponse: (response, meta, arg) => response,
+            // transformResponse: (response, meta, arg) => response,
+            transformResponse: (response, meta, arg) => {
+                // console.log('deleteBook => transformResponse')
+                return {
+                    originalArg: arg,
+                    data: response,
+                }
+            },
         }),
         deleteBook: builder.mutation({
             query: (id) => ({

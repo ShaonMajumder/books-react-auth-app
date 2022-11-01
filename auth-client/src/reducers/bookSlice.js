@@ -102,16 +102,26 @@ const bookSlice = createSlice({
       isAllOf(booksApi.endpoints.updateBook.matchFulfilled),
       (state, payload ) => {
         const { bookItems, total } = current(state)
+        const id = payload.payload.originalArg.id
+        const payload_data = payload.payload.data.data
         // // return {
         // //   bookItems: bookItems.push(),
         // //   total: total + 1
         // // }
         
         
-        // return {
-        //   ...state,
-        //   bookItems: bookItems.push(payload.payload.data)
-        // }
+        
+        
+        return {
+          ...state,
+          bookItems : bookItems.map((item, index) => {
+            if( item.id == id){
+              return payload_data
+            }else{
+              return item
+            }
+          })
+        }
         
       }
     )

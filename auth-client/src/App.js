@@ -16,6 +16,7 @@ const App = () => {
   const [bookItems, setBookItems] = useState([])
   const dispatch = useDispatch();
   
+  
   // const counter = useSelector((state) => state.counter)
   const [loggedIn, setLoggedIn2] = React.useState( sessionStorage.getItem('loggedIn') === 'true' || false );
   
@@ -75,7 +76,7 @@ const App = () => {
             <CreateBook history={useHistory} page={page} setPage={setPage}  />
           )} />
           <Route path='/books/update/:id' render={props => (
-            <EditBook {...props}  history={useHistory} page={page} setPage={setPage} bookItems={bookItems} setBookItems={setBookItems} />
+            <EditBook {...props}  history={useHistory} page={page} setPage={setPage} bookItems={bookItems} setBookItems={setBookItems} props={[setBookItems]}/>
           )} />
         </Switch>
       </div>

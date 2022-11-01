@@ -11,7 +11,6 @@ import { useDeleteBookMutation} from '../services/api';
 import { useHistory } from 'react-router-dom';
 import store from '../store'; //important without it listner in extra reducer doesn't work
 
-
 const BookList = (props) => {
     const page = props.page;
     const setPage = props.setPage;

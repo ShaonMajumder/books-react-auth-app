@@ -8,10 +8,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import apiClient, { booksApi, book_create_url,get_book_url, useUpdateBookMutation } from '../services/api';
 import store from "../store";
-
+import { setPageItem } from "../reducers/bookSlice";
+import { useDispatch } from "react-redux";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000"
 
+
 export default function EditBook(props) {
+  const { refetch } = booksApi.endpoints.books.useQuerySubscription(props.page)
+  const dispatch = useDispatch();
   const [updateBook, { isLoading2 }] = useUpdateBookMutation()
   const { id } = useParams()
   const history = props.history()
@@ -70,22 +74,13 @@ export default function EditBook(props) {
       
       Swal.fire({
         icon:"success",
-        text: payload.message
+        text: payload.data.message
       })
-      
-      let booksAll = store.getState().books.bookItems
-      booksAll = booksAll.filter((item) => {
-        if( item.id === id){
-          console.log('pointer data',item)
-          return payload.data
-        }else{
-          return item
-        }
-      })
-      console.log('Edited data',booksAll)
-      setBookItemsAll(  booksAll  )
+         
+      // setBookItemsAll(  bookItemsAll.map((item, index) => {  if( item.id == id){ return payload.data.data }else{ return item } })  )
+      props.setPage(props.page)
+      refetch()
       history.push('/')
-
     })
     .catch((response)=>{
       console.log('rejected', response)
