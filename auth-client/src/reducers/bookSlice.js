@@ -128,13 +128,13 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.deleteBook.matchFulfilled),
       (state, payload ) => {
-        let bookId = payload.payload.originalArg
-        console.log('Delete Listner',payload.payload.data)
-        const { bookItems, total } = current(state)
-        return {
-          bookItems: bookItems.filter(book => book.id !== bookId),
-          total: total - 1
-        }
+        // let bookId = payload.payload.originalArg
+        // console.log('Delete Listner',payload.payload.data)
+        // const { bookItems, total } = current(state)
+        // return {
+        //   bookItems: bookItems.filter(book => book.id !== bookId),
+        //   total: total - 1
+        // }
       }
     )
     .addMatcher(

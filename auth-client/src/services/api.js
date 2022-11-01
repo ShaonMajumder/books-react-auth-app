@@ -75,7 +75,11 @@ export const booksApi = createApi({
                 body: book
             }),
             transformResponse: (response, meta, arg) => response,
-            invalidatesTags: ['Book'],
+            // invalidatesTags: ['Book'],
+            invalidatesTags: (result, error, id) => [
+                { type: 'Book', id },
+                { type: 'Book', id: 'PARTIAL-LIST' },
+              ],
         }),
         updateBook: builder.mutation({
             query: (rest ) => ({
