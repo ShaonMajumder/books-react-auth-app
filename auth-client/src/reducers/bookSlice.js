@@ -101,27 +101,20 @@ const bookSlice = createSlice({
     .addMatcher(
       isAllOf(booksApi.endpoints.updateBook.matchFulfilled),
       (state, payload ) => {
-        const { bookItems, total } = current(state)
-        const id = payload.payload.originalArg.id
-        const payload_data = payload.payload.data.data
-        // // return {
-        // //   bookItems: bookItems.push(),
-        // //   total: total + 1
-        // // }
+        // const { bookItems, total } = current(state)
+        // const id = payload.payload.originalArg.id
+        // const payload_data = payload.payload.data.data
         
-        
-        
-        
-        return {
-          ...state,
-          bookItems : bookItems.map((item, index) => {
-            if( item.id == id){
-              return payload_data
-            }else{
-              return item
-            }
-          })
-        }
+        // return {
+        //   ...state,
+        //   bookItems : bookItems.map((item, index) => {
+        //     if( item.id == id){
+        //       return payload_data
+        //     }else{
+        //       return item
+        //     }
+        //   })
+        // }
         
       }
     )

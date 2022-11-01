@@ -75,10 +75,15 @@ export const booksApi = createApi({
                 body: book
             }),
             transformResponse: (response, meta, arg) => response,
-            // invalidatesTags: ['Book'],
-            invalidatesTags: (result, error, id) => [
-                { type: 'Book', id },
-                { type: 'Book', id: 'PARTIAL-LIST' },
+            
+            // invalidatesTags: (result, error, id) => [
+            //     { type: 'Book', id },
+            //     { type: 'Book', id: 'LIST' },
+            //   ],
+            //   invalidatesTags: [{ type: 'Book', id: 'LIST' },10],
+            invalidatesTags: [
+                
+                { type: 'Book', id: 10},
               ],
         }),
         updateBook: builder.mutation({
@@ -95,6 +100,7 @@ export const booksApi = createApi({
                     data: response,
                 }
             },
+            invalidatesTags: (result, error, arg) => [{ type: 'Book', id: arg.id }], // done
         }),
         deleteBook: builder.mutation({
             query: (id) => ({
@@ -104,7 +110,7 @@ export const booksApi = createApi({
             invalidatesTags: (result, error, id) => [
                 { type: 'Book', id },
                 { type: 'Book', id: 'PARTIAL-LIST' },
-              ],
+              ], // done
         
             transformResponse: (response, meta, arg) => {
                 // console.log('deleteBook => transformResponse')

@@ -79,7 +79,7 @@ export default function EditBook(props) {
          
       // setBookItemsAll(  bookItemsAll.map((item, index) => {  if( item.id == id){ return payload.data.data }else{ return item } })  )
       props.setPage(props.page)
-      refetch()
+      // refetch()
       history.push('/')
     })
     .catch((response)=>{
