@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class BookController extends Controller
 {
@@ -43,13 +44,18 @@ class BookController extends Controller
         );
     }
 
+
+
+
+
     /**
      * Adds Book
      */
     public function addBook(Request $request){
         $validator = Validator::make($request->all(),[
             'title' => ['required'],
-            'author' => ['required']
+            'author' => ['required'],
+            'image' => ['required','image']
         ]);
 
         if($validator->fails()){
@@ -63,6 +69,11 @@ class BookController extends Controller
         }
 
         try{
+            dd($request->post());
+            // $imageName = Str::random().'.'.$request->image->getClientOriginalExtension();
+            // Storage::disk('public')->putFileAs('product/image', $request->image,$imageName);
+            // Product::create($request->post()+['image'=>$imageName]);
+
             Book::insert([
                 'title' => $request->title,
                 'author' => $request->author
@@ -86,9 +97,6 @@ class BookController extends Controller
             );
         }
 
-
-        
-        
     }
 
     /**

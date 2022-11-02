@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Api\V1\Auth\LoginController;
 use App\Http\Controllers\BookController;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,15 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 });
+
+// Route::fallback(function () {
+//     return response()->json(
+//         ...$this->apiResponseBuilder(
+//             $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
+//             $message = 'Book is not deleted !'
+//         )
+//     );
+// });
 
 // Route::fallback(function () {
 //     return response()->json(['error' => 'Not Found!'], 404);
