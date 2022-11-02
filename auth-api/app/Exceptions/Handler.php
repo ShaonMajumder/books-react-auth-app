@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -48,7 +50,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof ModelNotFoundException && $request->wantsJson()) {
+        if ( ($exception instanceof ModelNotFoundException || $exception instanceof MethodNotAllowedHttpException || $exception instanceof RouteNotFoundException ) && $request->wantsJson()) {
             // dd( $request->header('Content-Type'));
             // return isset($acceptable[0]) && Str::contains(strtolower($acceptable[0]), ['/json', '+json']);
             $this->data = [
