@@ -56,10 +56,10 @@ export default function CreateBook(props) {
       })
       
       // refetch()
-      // let last_page = store.getState().books.last_page
-      // props.setPage(last_page)
+      let last_page = store.getState().books.last_page
+      props.setPage(last_page)
       
-      // history.push('/')
+      history.push('/')
     })
     .catch((error) => console.error('rejected', error))
   }
