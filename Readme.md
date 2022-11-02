@@ -36,9 +36,8 @@ date: 18-10-2022
 - Redux - slice and createApi combined for data deletation
 
 ### API Features
-Customized Error Handling - 404
-
-
+Customized Error Handling = 404
+HTTP_METHOD_NOT_ALLOWED = 405;
 
 
 * conditional fetching createApi( react-redux 
@@ -347,6 +346,7 @@ yarn add js-cookie
 
 
 ### Research
+- Using HTTP Methods for RESTful Services - https://www.restapitutorial.com/lessons/httpmethods.html#:~:text=The%20primary%20or%20most%2Dcommonly,but%20are%20utilized%20less%20frequently.
 - React Context State Management
 https://www.freecodecamp.org/news/react-context-for-beginners/
 - Redux Data Management

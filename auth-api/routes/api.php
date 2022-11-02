@@ -29,19 +29,5 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::post('/add', [BookController::class, "addBook"]);
         Route::put('/update/{id}',  [BookController::class, "updateBook"]);
         Route::delete('/delete/{id}',  [BookController::class, "deleteBook"]);
-
     });
 });
-
-// Route::fallback(function () {
-//     return response()->json(
-//         ...$this->apiResponseBuilder(
-//             $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
-//             $message = 'Book is not deleted !'
-//         )
-//     );
-// });
-
-// Route::fallback(function () {
-//     return response()->json(['error' => 'Not Found!'], 404);
-// });

@@ -55,7 +55,7 @@ class BookController extends Controller
         $validator = Validator::make($request->all(),[
             'title' => ['required'],
             'author' => ['required'],
-            'image' => ['required','image']
+            'image' => ['image']
         ]);
 
         if($validator->fails()){
@@ -69,7 +69,7 @@ class BookController extends Controller
         }
 
         try{
-            dd($request->post());
+            // dd($request->post());
             // $imageName = Str::random().'.'.$request->image->getClientOriginalExtension();
             // Storage::disk('public')->putFileAs('product/image', $request->image,$imageName);
             // Product::create($request->post()+['image'=>$imageName]);
@@ -103,6 +103,23 @@ class BookController extends Controller
      * Update Book
      */
     public function updateBook(Request $request, Book $id){
+        // dd($request->except('_method'));
+        $validator = Validator::make($request->all(),[
+            'title' => ['required'],
+            'author' => ['required'],
+            'image' => ['image']
+        ]);
+
+        if($validator->fails()){
+            $this->data = $validator->errors(); //->first();
+            return response()->json(
+                ...$this->apiResponseBuilder(
+                    $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
+                    $message = 'Payload Validation is failed !'
+                )
+            );
+        }
+
         try{
             $id->title = $request->title;
             $id->author = $request->author;
@@ -121,7 +138,7 @@ class BookController extends Controller
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_UNPROCESSABLE_ENTITY,
-                    $message = 'Book is not deleted !'
+                    $message = 'Book was not updated !'
                 )
             );
         }

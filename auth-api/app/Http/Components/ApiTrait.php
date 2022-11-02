@@ -2,6 +2,7 @@
 
 namespace App\Http\Components;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 
 trait ApiTrait{
     protected $status   = false;
@@ -66,5 +67,27 @@ trait ApiTrait{
         }else{
             return $e->getMessage(); 
         }
+    }
+
+    public function getRouteSlugs()
+    {
+        $slugs  = [];
+        $routes = Route::getRoutes();
+
+        foreach ($routes as $route)
+        {
+            $slugs[] = $route->uri();
+        }
+
+        return array_unique($slugs);
+    }
+
+    public function pathExistedOnRoutes($request){
+        foreach($this->getRouteSlugs() as $path_existed){
+            if(strpos($path_existed, $request->path()) !== false){
+                return true;
+            }
+        }
+        return false;
     }
 }
