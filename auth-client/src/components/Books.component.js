@@ -104,7 +104,7 @@ const BookList = (props) => {
         
         return (
             <div className="list-group">
-                <Link className='btn btn-primary mb-2 float-end' to={"/books/create"}>
+                <Link className='btn btn-primary mb-2 float-end primary-background' to={"/books/create"}>
                     Create Book
                 </Link>
                 <Table responsive="sm" striped bordered hover >

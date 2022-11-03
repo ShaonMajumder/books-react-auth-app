@@ -16,8 +16,3 @@
     opacity:1;
     transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
 }
-
-.table-icons{
-    font-size: 150%;
-    cursor: pointer;
-}

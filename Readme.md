@@ -77,6 +77,10 @@ Adding Icons
 ```bash
 yarn add react-icons
 ```
+Add sass
+```bash
+yarn add sass
+```
 
 ## Books
 Create Symbolic link
@@ -344,6 +348,8 @@ yarn add js-cookie
 
 
 ### Research
+#### SCSS
+parameters - https://sass-lang.com/documentation/style-rules/declarations
 #### Laravel
 PUT request sends empty payload from postman - https://stackoverflow.com/questions/40211452/no-body-data-found-in-laravel-5-3-with-put-request
     - Solution : send post request and in payload send {'_method': 'PUT'}
