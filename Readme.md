@@ -73,11 +73,9 @@ yarn add react-router-dom
 yarn add sweetalert2
 ```
 
-Adding FontAwesome
+Adding Icons
 ```bash
-yarn add @fortawesome/fontawesome-svg-core
-yarn add @fortawesome/free-solid-svg-icons
-yarn add @fortawesome/react-fontawesome
+yarn add react-icons
 ```
 
 ## Books
@@ -346,6 +344,10 @@ yarn add js-cookie
 
 
 ### Research
+#### Laravel
+PUT request sends empty payload from postman - https://stackoverflow.com/questions/40211452/no-body-data-found-in-laravel-5-3-with-put-request
+    - Solution : send post request and in payload send {'_method': 'PUT'}
+
 - Using HTTP Methods for RESTful Services - https://www.restapitutorial.com/lessons/httpmethods.html#:~:text=The%20primary%20or%20most%2Dcommonly,but%20are%20utilized%20less%20frequently.
 - React Context State Management
 https://www.freecodecamp.org/news/react-context-for-beginners/

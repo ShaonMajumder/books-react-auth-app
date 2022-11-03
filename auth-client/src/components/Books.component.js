@@ -10,6 +10,8 @@ import Button from 'react-bootstrap/Button';
 import { useDeleteBookMutation} from '../services/api';
 import { useHistory } from 'react-router-dom';
 import store from '../store'; //important without it listner in extra reducer doesn't work
+import { GoTrashcan } from 'react-icons/go';
+import { FaEdit } from 'react-icons/fa'
 
 const BookList = (props) => {
     console.log('props.loggedIn ',props.loggedIn )
@@ -94,17 +96,8 @@ const BookList = (props) => {
                 <td>{title}</td>
                 <td>{author}</td>
                 <td>
-                    <Button variant="danger" 
-                    onClick={()=>deleteProduct(id)}
-                    >Delete</Button>
-                    <Button variant="primary" 
-                    onClick={()=>{
-                        history.push(`/books/update/${id}`)
-                    }}
-                    >Edit</Button>
-                    {/* <Link className='btn btn-primary mb-2 float-end' to={"/books/create"}>
-                    Ed Book
-                </Link> */}
+                    <GoTrashcan className='table-icons' onClick={()=>deleteProduct(id)} />
+                    <FaEdit className='table-icons' onClick={ ()=> history.push(`/books/update/${id}`) } />
                 </td>
             </tr>
         );
