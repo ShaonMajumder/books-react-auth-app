@@ -58,7 +58,6 @@ class Handler extends ExceptionHandler
             $this->data = [
                 'not_found'=>'Your Route URI is incomplete! or '. $exception->getMessage()
             ];
-            // dd($exception->message);
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_NOT_FOUND,
