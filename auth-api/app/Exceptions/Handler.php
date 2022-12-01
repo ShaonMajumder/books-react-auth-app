@@ -56,13 +56,13 @@ class Handler extends ExceptionHandler
         // dd( $request->path(), $request->path(), $request->method(), Route::getRoutes(),$exception);
         if($this->pathExistedOnRoutes($request)){
             $this->data = [
-                'not_found'=>'Your Route URI is incomplete!'
+                'not_found'=>'Your Route URI is incomplete! or '. $exception->getMessage()
             ];
             // dd($exception->message);
             return response()->json(
                 ...$this->apiResponseBuilder(
                     $status_code = Response::HTTP_NOT_FOUND,
-                    $message = 'Your Route URI is incomplete!'
+                    $message = 'Your Route URI is incomplete! or '.$exception->getMessage()
                 )
             ); 
         }

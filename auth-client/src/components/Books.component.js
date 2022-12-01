@@ -19,7 +19,6 @@ const BookList = (props) => {
     const setPage = props.setPage;
     const bookItemsAll = props.bookItems;
     const setBookItemsAll = props.setBookItems;
-    console.log(props)
     const history = useHistory();
     const [deleteBook, { isLoading3 }] = useDeleteBookMutation({
         fixedCacheKey: 'shared-update-post',
@@ -79,13 +78,13 @@ const BookList = (props) => {
     
     //run createApi query, set data from reducer listner, then access data into component from store
     const { data: bookItems, isLoading, isSuccess, isError }  = useBooksQuery(page, {skip: !props.loggedIn})
-    console.log(' index',bookItems)
+    // console.log(' index',bookItems)
     
-    React.useEffect(() => {
-        if (bookItems){
-            setBookItemsAll(bookItems.data.books.data)
-        }
-      },[bookItems])
+    // React.useEffect(() => {
+    //     if (bookItems){
+    //         setBookItemsAll(bookItems.data.books.data)
+    //     }
+    //   },[bookItems])
     
     if (props.loggedIn && bookItems) {
         let data = bookItems.data.books

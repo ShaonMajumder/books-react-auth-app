@@ -1,4 +1,4 @@
-# Books - React,Redux,Sanctum
+# Books - React,Redux,Sanctum an healthy Scaffolding
 ---
 author: Shaon Majumder
 date: 18-10-2022
@@ -12,6 +12,7 @@ date: 18-10-2022
 - Search (Unimplemented)
 
 ### Dev Features
+- API Error Handling Custom
 - Authentication (Bearer Token Based, Context Based)
 - CRUD (Redux Based)
 - Structered API Axios
