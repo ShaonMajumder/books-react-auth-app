@@ -82,6 +82,9 @@ trait ApiTrait{
         return array_unique($slugs);
     }
 
+    /**
+     * Check if request path existed on route list
+     */
     public function pathExistedOnRoutes($request){
         foreach($this->getRouteSlugs() as $path_existed){
             if(strpos($path_existed, $request->path()) !== false){

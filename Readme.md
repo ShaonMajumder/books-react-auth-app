@@ -65,6 +65,25 @@ yarn install
 yarn start
 ```
 
+## Cloning Project
+```bash
+cd project-api
+composer update
+cp .env.example .env
+code .env and edit
+php artisan migrate:fresh --seed
+php artisan key:generate
+php artisan serve 
+```
+
+```bash
+cd project-client
+cp .env.example .env
+code .env
+yarn install
+yarn start
+```
+
 ## Dependencies
 ```bash
 yarn add react-redux
